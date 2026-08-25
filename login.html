@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logowanie — Dominik Studio</title><link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+<header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">D</span><span><strong>DOMINIK</strong><small>STUDIO / EDITING</small></span></a><a class="header-cta" href="index.html">← Strona główna</a></header>
+<main class="auth-wrap"><section class="auth-card"><div class="eyebrow"><span></span> KONTO</div><h1>Witaj<br><em>ponownie.</em></h1><p class="auth-lead">Zaloguj się, aby zamawiać montaż i sprawdzać swoje zlecenia.</p>
+<form id="loginForm" class="auth-form"><label>E-MAIL<input name="email" type="email" autocomplete="email" required placeholder="twoj@email.pl"></label><label>HASŁO<input name="password" type="password" autocomplete="current-password" required placeholder="••••••••"></label><div id="status" class="auth-status"></div><button class="btn btn-primary" type="submit">Zaloguj się <span>→</span></button></form>
+<p class="auth-switch">Nie masz konta? <a id="registerLink" href="register.html">Załóż je</a></p></section></main>
+<script>
+const next=new URLSearchParams(location.search).get('next');
+if(next) document.getElementById('registerLink').href='register.html?next='+encodeURIComponent(next);
+document.getElementById('loginForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,s=document.getElementById('status'),b=f.querySelector('button');b.disabled=true;s.textContent='Logowanie...';try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:f.email.value,password:f.password.value})});const d=await r.json();if(!r.ok)throw new Error(d.error);location.href=next||d.redirect||'dashboard.html'}catch(err){s.textContent=err.message;b.disabled=false}});
+</script></body></html>

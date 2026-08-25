@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Płatność — Dominik Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="checkout-page">
+    <section class="checkout-shell">
+      <div class="checkout-card" style="max-width:680px;margin:auto;text-align:center;padding:60px 35px">
+        <div id="icon" style="font-size:50px;color:#ff4d55;margin-bottom:20px">…</div>
+        <div class="eyebrow" style="justify-content:center"><span></span> <span id="eyebrow">SPRAWDZAM PŁATNOŚĆ</span> <span></span></div>
+        <h1 id="title" style="font-size:clamp(2.7rem,6vw,5rem);margin-bottom:20px">Chwileczkę.<br><em>Sprawdzamy.</em></h1>
+        <p id="message" style="max-width:500px;margin:auto;color:#8d7e80;line-height:1.8;font-size:12px">Weryfikuję status płatności na serwerze. Nie zamykaj tej strony.</p>
+        <a class="btn btn-primary" style="margin-top:30px" href="index.html">Wróć na stronę główną <span>→</span></a>
+      </div>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get('session_id');
+    const icon = document.getElementById('icon');
+    const eyebrow = document.getElementById('eyebrow');
+    const title = document.getElementById('title');
+    const message = document.getElementById('message');
+
+    async function checkPayment() {
+      if (!sessionId) throw new Error('Brak identyfikatora płatności.');
+      const response = await fetch('/api/payment-status?session_id=' + encodeURIComponent(sessionId));
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Nie udało się sprawdzić płatności.');
+      return data;
+    }
+
+    async function run() {
+      try {
+        for (let i = 0; i < 8; i++) {
+          const data = await checkPayment();
+          if (data.paid) {
+            icon.textContent = '✓';
+            icon.style.color = '#4ee987';
+            eyebrow.textContent = 'PŁATNOŚĆ ZAKOŃCZONA';
+            title.innerHTML = 'Dzięki.<br><em>Zlecenie leci.</em>';
+            message.textContent = `Płatność za zamówienie #${data.orderId} została potwierdzona. Możesz teraz przekazać nam materiały i szczegóły realizacji.`;
+            return;
+          }
+          message.textContent = 'Płatność jest jeszcze przetwarzana. Sprawdzam ponownie…';
+          await new Promise(r => setTimeout(r, 1500));
+        }
+        eyebrow.textContent = 'PŁATNOŚĆ W TOKU';
+        title.innerHTML = 'Jeszcze moment.<br><em>Płatność jest przetwarzana.</em>';
+        message.textContent = 'Nie otrzymaliśmy jeszcze końcowego potwierdzenia. Sprawdź za chwilę ponownie w panelu zamówień.';
+      } catch (err) {
+        icon.textContent = '×';
+        icon.style.color = '#ff4d55';
+        eyebrow.textContent = 'NIE UDAŁO SIĘ SPRAWDZIĆ';
+        title.innerHTML = 'Coś poszło<br><em>nie tak.</em>';
+        message.textContent = err.message;
+      }
+    }
+    run();
+  </script>
+</body>
+</html>

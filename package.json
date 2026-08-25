@@ -1,0 +1,20 @@
+{
+  "name": "dominik-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Strona portfolio i checkout Dominik Studio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-mysql-session": "^3.0.3",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.11.5",
+    "stripe": "^17.5.0"
+  }
+}

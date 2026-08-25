@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Zamów usługę montażu wideo w Dominik Studio.">
+  <meta name="theme-color" content="#0b0506">
+  <title>Zamów usługę — Dominik Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .checkout-page{min-height:100vh;padding:130px 20px 80px}
+    .checkout-shell{width:min(960px,100%);margin:auto}
+    .back-link{display:inline-block;color:#817476;font-size:11px;margin-bottom:30px}
+    .back-link:hover{color:#fff}
+    .checkout-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:16px}
+    .checkout-card{background:linear-gradient(145deg,#160b0d,#0b0708);border:1px solid var(--line);border-radius:18px;padding:35px}
+    .checkout-card h1{font-size:clamp(2.5rem,5vw,4.4rem);margin-bottom:18px}
+    .checkout-card p{color:#8d7e80;font-size:12px;line-height:1.8}
+    .selection{margin-top:30px;display:grid;gap:8px}
+    .service-option{position:relative;display:grid;grid-template-columns:1fr auto;gap:15px;padding:16px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02);cursor:pointer}
+    .service-option input{position:absolute;opacity:0}
+    .service-option:has(input:checked){border-color:rgba(255,43,43,.65);background:rgba(255,43,43,.08)}
+    .service-option b{font:600 12px Poppins}.service-option small{display:block;color:#716567;font-size:9px;margin-top:4px}.service-option strong{font:700 13px Poppins}
+    .order-summary{margin-top:22px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end}
+    .order-summary span{color:#786b6d;font-size:10px}.order-summary strong{font:700 28px Poppins;color:var(--red)}
+    .checkout-form{display:grid;gap:16px;margin-top:24px}
+    .field label{display:block;color:#9a8b8d;font-size:9px;font-weight:700;letter-spacing:.1em;margin-bottom:7px}
+    .field input,.field textarea{width:100%;padding:13px 14px;border-radius:9px;border:1px solid var(--line);background:#090607;color:#fff;outline:none;font:inherit;font-size:12px}
+    .field textarea{min-height:90px;resize:vertical}
+    .field input:focus,.field textarea:focus{border-color:rgba(255,43,43,.65);box-shadow:0 0 0 3px rgba(255,43,43,.08)}
+    .checkout-submit{width:100%;border:0;cursor:pointer;justify-content:center;margin-top:5px}
+    .checkout-note{font-size:9px!important;color:#625759!important;text-align:center}
+    .status{min-height:18px;color:#ff8185;font-size:10px;text-align:center}
+    .secure-list{margin-top:28px;display:grid;gap:10px}
+    .secure-list div{font-size:10px;color:#827477}.secure-list b{color:#fff}
+    @media(max-width:800px){.checkout-grid{grid-template-columns:1fr}.checkout-page{padding-top:110px}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark">D</span><span><strong>DOMINIK</strong><small>STUDIO / EDITING</small></span></a>
+    <a class="header-cta" href="index.html">← Wróć na stronę</a>
+  </header>
+
+  <main class="checkout-page">
+    <div class="checkout-shell">
+      <a class="back-link" href="index.html">← Powrót do strony głównej</a>
+      <div class="checkout-grid">
+        <section class="checkout-card">
+          <div class="eyebrow"><span></span> ZAMÓWIENIE</div>
+          <h1>Wybierz<br><em>usługę.</em></h1>
+          <p>Wybierz pakiet montażowy poniżej. Po kliknięciu „Zapłać BLIK” przejdziesz do bezpiecznego Checkoutu Stripe, gdzie podasz kod BLIK i zatwierdzisz płatność w aplikacji banku.</p>
+
+          <div class="selection" id="serviceList">
+            <label class="service-option"><input type="radio" name="service" value="short"><span><b>Krótki film</b><small>TikTok / Short / rolka</small></span><strong>5 zł</strong></label>
+            <label class="service-option"><input type="radio" name="service" value="long"><span><b>Dłuższy materiał</b><small>pojedynczy materiał</small></span><strong>10 zł</strong></label>
+            <label class="service-option"><input type="radio" name="service" value="veryLong"><span><b>Bardzo długi materiał</b><small>ponad godzina surowego materiału</small></span><strong>20 zł</strong></label>
+            <label class="service-option"><input type="radio" name="service" value="short10"><span><b>10 × krótki film</b><small>pakiet 10 shortów / rolek / TikToków</small></span><strong>35 zł</strong></label>
+            <label class="service-option"><input type="radio" name="service" value="long10"><span><b>10 × dłuższy materiał</b><small>pakiet 10 materiałów</small></span><strong>75 zł</strong></label>
+            <label class="service-option"><input type="radio" name="service" value="veryLong10"><span><b>10 × bardzo długi materiał</b><small>pakiet 10 dużych realizacji</small></span><strong>139,99 zł</strong></label>
+          </div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="eyebrow"><span></span> DANE ZLECENIA</div>
+          <h2 style="font-size:32px;line-height:1.05;font-family:Poppins;margin-bottom:8px">Kilka szczegółów<br><em>i lecimy.</em></h2>
+          <form class="checkout-form" id="checkoutForm">
+            <div class="account-box" id="accountBox">Sprawdzam konto...</div>
+            <div class="field"><label for="notes">OPIS ZLECENIA (OPCJONALNIE)</label><textarea id="notes" name="notes" placeholder="Np. dynamiczny montaż, napisy, muzyka, termin..."></textarea></div>
+            <div class="order-summary"><span>Do zapłaty</span><strong id="total">—</strong></div>
+            <button class="btn btn-primary checkout-submit" type="submit">Zapłać BLIK <span>→</span></button>
+            <div class="status" id="status" aria-live="polite"></div>
+            <p class="checkout-note">Płatność BLIK jest obsługiwana bezpośrednio przez Stripe. Dane płatnicze nie są przechowywane na tej stronie.</p>
+          </form>
+          <div class="secure-list">
+            <div>✓ <b>BLIK</b> — płatność kodem BLIK i zatwierdzenie w aplikacji bankowej</div>
+            <div>✓ <b>Bezpieczny Checkout</b> — płatność obsługiwana przez Stripe</div>
+            <div>✓ <b>Kontakt</b> — w razie pytań: dominigkontakt@gmail.com</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const services = {
+      short:{name:'Krótki film',price:5},
+      long:{name:'Dłuższy materiał',price:10},
+      veryLong:{name:'Bardzo długi materiał',price:20},
+      short10:{name:'10 × krótki film',price:35},
+      long10:{name:'10 × dłuższy materiał',price:75},
+      veryLong10:{name:'10 × bardzo długi materiał',price:139.99}
+    };
+    const params = new URLSearchParams(location.search);
+    const requested = params.get('service');
+    const accountBox = document.getElementById('accountBox');
+    fetch('/api/me').then(r=>r.json()).then(d=>{
+      if(!d.user){ location.href='login.html?next='+encodeURIComponent('payment.html'+location.search); return; }
+      accountBox.innerHTML = '<b>'+d.user.name.replace(/[&<>\"']/g,'')+'</b><span>'+d.user.email+'</span>';
+    }).catch(()=>{ location.href='login.html?next='+encodeURIComponent('payment.html'+location.search); });
+    const radios = [...document.querySelectorAll('input[name="service"]')];
+    const total = document.getElementById('total');
+    const status = document.getElementById('status');
+
+    function updateTotal(){
+      const selected = document.querySelector('input[name="service"]:checked');
+      total.textContent = selected ? `${services[selected.value].price} zł` : '—';
+    }
+    if (services[requested]) document.querySelector(`input[value="${requested}"]`).checked = true;
+    radios.forEach(r => r.addEventListener('change', updateTotal));
+    updateTotal();
+
+    document.getElementById('checkoutForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const selected = document.querySelector('input[name="service"]:checked');
+      if (!selected) { status.textContent = 'Najpierw wybierz usługę.'; return; }
+
+      const button = e.currentTarget.querySelector('button');
+      button.disabled = true;
+      button.style.opacity = '.65';
+      status.textContent = 'Przygotowuję bezpieczną płatność...';
+
+      const payload = {
+        service: selected.value,
+        notes: document.getElementById('notes').value
+      };
+
+      try {
+        const response = await fetch('/api/create-checkout-session', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Nie udało się rozpocząć płatności.');
+        window.location.href = data.url;
+      } catch (err) {
+        status.textContent = err.message;
+        button.disabled = false;
+        button.style.opacity = '1';
+      }
+    });
+  </script>
+</body>
+</html>
