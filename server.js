@@ -1,92 +1,49 @@
+```javascript
 require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
 const Stripe = require('stripe');
-const mysql = require('mysql2/promise');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
+const pg = require('pg');
+const connectPgSimple = require('connect-pg-simple');
+
+const { Pool } = pg;
+const PgSession = connectPgSimple(session);
 
 const app = express();
 
 const PORT = Number(process.env.PORT || 3000);
 
-// Na Renderze użyj automatycznie adresu usługi.
-// Możesz też ręcznie ustawić BASE_URL.
 const BASE_URL =
   process.env.BASE_URL ||
   process.env.RENDER_EXTERNAL_URL ||
   `http://localhost:${PORT}`;
 
 // =====================================================
-// MYSQL
-// =====================================================
-//
-// Obsługujemy dwa warianty:
-//
-// 1. DATABASE_URL
-//    mysql://user:password@host:3306/database
-//
-// 2. Osobne zmienne:
-//    MYSQL_HOST
-//    MYSQL_PORT
-//    MYSQL_USER
-//    MYSQL_PASSWORD
-//    MYSQL_DATABASE
-//
-// Dzięki temu nie szukamy MySQL na localhost na Renderze.
+// DATABASE — SUPABASE / POSTGRESQL
 // =====================================================
 
-function getDatabaseConfig() {
-  if (process.env.DATABASE_URL) {
-    const url = new URL(process.env.DATABASE_URL);
-
-    return {
-      host: url.hostname,
-      port: Number(url.port || 3306),
-      user: decodeURIComponent(url.username),
-      password: decodeURIComponent(url.password),
-      database: decodeURIComponent(url.pathname.replace(/^\//, '')),
-      ssl: process.env.MYSQL_SSL === 'true'
-        ? { rejectUnauthorized: false }
-        : undefined
-    };
-  }
-
-  return {
-    host: process.env.MYSQL_HOST,
-    port: Number(process.env.MYSQL_PORT || 3306),
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE || 'dominik_studio',
-    ssl: process.env.MYSQL_SSL === 'true'
-      ? { rejectUnauthorized: false }
-      : undefined
-  };
+if (!process.env.DATABASE_URL) {
+  console.error('BRAK DATABASE_URL!');
+  console.error('Dodaj DATABASE_URL z Supabase w Renderze.');
 }
 
-const dbConfig = getDatabaseConfig();
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
 
-if (!dbConfig.host || !dbConfig.user || !dbConfig.database) {
-  console.error('==============================================');
-  console.error('BRAK KONFIGURACJI MYSQL');
-  console.error('');
-  console.error('Ustaw DATABASE_URL albo:');
-  console.error('MYSQL_HOST');
-  console.error('MYSQL_PORT');
-  console.error('MYSQL_USER');
-  console.error('MYSQL_PASSWORD');
-  console.error('MYSQL_DATABASE');
-  console.error('==============================================');
-}
+  ssl: {
+    rejectUnauthorized: false
+  },
 
-const pool = mysql.createPool({
-  ...dbConfig,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  charset: 'utf8mb4'
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000
+});
+
+pool.on('error', (err) => {
+  console.error('PostgreSQL pool error:', err);
 });
 
 // =====================================================
@@ -112,7 +69,7 @@ const SERVICES = {
 
 // =====================================================
 // STRIPE WEBHOOK
-// WAŻNE: musi być przed express.json()
+// MUSI BYĆ PRZED express.json()
 // =====================================================
 
 app.post(
@@ -120,7 +77,9 @@ app.post(
   express.raw({ type: 'application/json' }),
   async (req, res) => {
     if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
-      return res.status(503).send('Webhook nie jest skonfigurowany.');
+      return res
+        .status(503)
+        .send('Webhook nie jest skonfigurowany.');
     }
 
     let event;
@@ -132,22 +91,35 @@ app.post(
         process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
-      console.error('Webhook signature error:', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      console.error(
+        'Stripe webhook signature error:',
+        err.message
+      );
+
+      return res
+        .status(400)
+        .send(`Webhook Error: ${err.message}`);
     }
 
     try {
+      // -----------------------------------------------
+      // PŁATNOŚĆ ZAKOŃCZONA
+      // -----------------------------------------------
+
       if (event.type === 'checkout.session.completed') {
         const checkout = event.data.object;
-        const orderId = Number(checkout.metadata?.order_id);
+
+        const orderId = Number(
+          checkout.metadata?.order_id
+        );
 
         if (orderId) {
-          await pool.execute(
+          await pool.query(
             `UPDATE orders
              SET status = 'paid',
-                 stripe_payment_intent_id = ?,
+                 stripe_payment_intent_id = $1,
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = ?`,
+             WHERE id = $2`,
             [
               checkout.payment_intent || null,
               orderId
@@ -160,27 +132,41 @@ app.post(
         }
       }
 
+      // -----------------------------------------------
+      // PŁATNOŚĆ WYGASŁA
+      // -----------------------------------------------
+
       if (event.type === 'checkout.session.expired') {
         const checkout = event.data.object;
-        const orderId = Number(checkout.metadata?.order_id);
+
+        const orderId = Number(
+          checkout.metadata?.order_id
+        );
 
         if (orderId) {
-          await pool.execute(
+          await pool.query(
             `UPDATE orders
              SET status = 'cancelled',
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = ?
+             WHERE id = $1
                AND status = 'pending'`,
             [orderId]
           );
         }
       }
-    } catch (err) {
-      console.error('Webhook database error:', err);
-      return res.status(500).send('Webhook database error');
-    }
 
-    res.json({ received: true });
+      return res.json({ received: true });
+
+    } catch (err) {
+      console.error(
+        'Webhook database error:',
+        err
+      );
+
+      return res
+        .status(500)
+        .send('Webhook database error');
+    }
   }
 );
 
@@ -194,23 +180,14 @@ app.use(express.json());
 // SESJE
 // =====================================================
 
-const sessionStore = new MySQLStore({
-  ...dbConfig,
+const sessionStore = new PgSession({
+  pool: pool,
 
-  clearExpired: true,
-  checkExpirationInterval: 900000,
-  expiration: 1000 * 60 * 60 * 24 * 7,
+  tableName: 'sessions',
 
-  createDatabaseTable: true,
+  createTableIfMissing: true,
 
-  schema: {
-    tableName: 'sessions',
-    columnNames: {
-      session_id: 'session_id',
-      expires: 'expires',
-      data: 'data'
-    }
-  }
+  pruneSessionInterval: 900
 });
 
 app.use(
@@ -222,15 +199,21 @@ app.use(
       'CHANGE_THIS_SESSION_SECRET',
 
     resave: false,
+
     saveUninitialized: false,
 
     store: sessionStore,
 
     cookie: {
       httpOnly: true,
+
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 24 * 7
+
+      secure:
+        process.env.NODE_ENV === 'production',
+
+      maxAge:
+        1000 * 60 * 60 * 24 * 7
     }
   })
 );
@@ -239,7 +222,9 @@ app.use(
 // PLIKI STATYCZNE
 // =====================================================
 
-app.use(express.static(path.join(__dirname)));
+app.use(
+  express.static(__dirname)
+);
 
 // =====================================================
 // AUTH HELPERS
@@ -270,48 +255,70 @@ function safeUser(user) {
 
 app.post('/api/register', async (req, res) => {
   try {
-    const name = String(req.body.name || '').trim();
-    const email = String(req.body.email || '')
+    const name = String(
+      req.body.name || ''
+    ).trim();
+
+    const email = String(
+      req.body.email || ''
+    )
       .trim()
       .toLowerCase();
 
-    const password = String(req.body.password || '');
+    const password = String(
+      req.body.password || ''
+    );
 
     if (name.length < 2) {
       return res.status(400).json({
-        error: 'Podaj poprawne imię lub nazwę.'
+        error:
+          'Podaj poprawne imię lub nazwę.'
       });
     }
 
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       return res.status(400).json({
-        error: 'Podaj poprawny adres e-mail.'
+        error:
+          'Podaj poprawny adres e-mail.'
       });
     }
 
     if (password.length < 8) {
       return res.status(400).json({
-        error: 'Hasło musi mieć minimum 8 znaków.'
+        error:
+          'Hasło musi mieć minimum 8 znaków.'
       });
     }
 
-    const [existing] = await pool.execute(
-      'SELECT id FROM users WHERE email = ? LIMIT 1',
+    // Sprawdzenie użytkownika
+
+    const existingResult = await pool.query(
+      `SELECT id
+       FROM users
+       WHERE email = $1
+       LIMIT 1`,
       [email]
     );
 
-    if (existing.length) {
+    if (existingResult.rows.length > 0) {
       return res.status(409).json({
-        error: 'Konto z tym adresem e-mail już istnieje.'
+        error:
+          'Konto z tym adresem e-mail już istnieje.'
       });
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    // Haszowanie hasła
 
-    const [result] = await pool.execute(
+    const passwordHash =
+      await bcrypt.hash(password, 12);
+
+    // Tworzenie użytkownika
+
+    const result = await pool.query(
       `INSERT INTO users
        (name, email, password_hash, role)
-       VALUES (?, ?, ?, 'client')`,
+       VALUES ($1, $2, $3, 'client')
+       RETURNING id`,
       [
         name,
         email,
@@ -320,7 +327,7 @@ app.post('/api/register', async (req, res) => {
     );
 
     const user = {
-      id: result.insertId,
+      id: result.rows[0].id,
       name,
       email,
       role: 'client'
@@ -328,16 +335,34 @@ app.post('/api/register', async (req, res) => {
 
     req.session.user = user;
 
-    res.status(201).json({
-      user: safeUser(user),
-      redirect: '/dashboard.html'
+    req.session.save((err) => {
+      if (err) {
+        console.error(
+          'Session save error:',
+          err
+        );
+
+        return res.status(500).json({
+          error:
+            'Konto utworzono, ale nie udało się zapisać sesji.'
+        });
+      }
+
+      return res.status(201).json({
+        user: safeUser(user),
+        redirect: '/dashboard.html'
+      });
     });
 
   } catch (err) {
-    console.error('Register error:', err);
+    console.error(
+      'Register error:',
+      err
+    );
 
-    res.status(500).json({
-      error: 'Nie udało się utworzyć konta.'
+    return res.status(500).json({
+      error:
+        'Nie udało się utworzyć konta.'
     });
   }
 });
@@ -348,13 +373,17 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-    const email = String(req.body.email || '')
+    const email = String(
+      req.body.email || ''
+    )
       .trim()
       .toLowerCase();
 
-    const password = String(req.body.password || '');
+    const password = String(
+      req.body.password || ''
+    );
 
-    const [rows] = await pool.execute(
+    const result = await pool.query(
       `SELECT
          id,
          name,
@@ -362,37 +391,70 @@ app.post('/api/login', async (req, res) => {
          password_hash,
          role
        FROM users
-       WHERE email = ?
+       WHERE email = $1
        LIMIT 1`,
       [email]
     );
 
     if (
-      !rows.length ||
-      !(await bcrypt.compare(
-        password,
-        rows[0].password_hash
-      ))
+      result.rows.length === 0
     ) {
       return res.status(401).json({
-        error: 'Nieprawidłowy e-mail lub hasło.'
+        error:
+          'Nieprawidłowy e-mail lub hasło.'
       });
     }
 
-    const user = safeUser(rows[0]);
+    const userRow =
+      result.rows[0];
+
+    const passwordCorrect =
+      await bcrypt.compare(
+        password,
+        userRow.password_hash
+      );
+
+    if (!passwordCorrect) {
+      return res.status(401).json({
+        error:
+          'Nieprawidłowy e-mail lub hasło.'
+      });
+    }
+
+    const user = safeUser(
+      userRow
+    );
 
     req.session.user = user;
 
-    res.json({
-      user,
-      redirect: '/dashboard.html'
+    req.session.save((err) => {
+      if (err) {
+        console.error(
+          'Session save error:',
+          err
+        );
+
+        return res.status(500).json({
+          error:
+            'Zalogowano, ale nie udało się zapisać sesji.'
+        });
+      }
+
+      return res.json({
+        user,
+        redirect: '/dashboard.html'
+      });
     });
 
   } catch (err) {
-    console.error('Login error:', err);
+    console.error(
+      'Login error:',
+      err
+    );
 
-    res.status(500).json({
-      error: 'Nie udało się zalogować.'
+    return res.status(500).json({
+      error:
+        'Nie udało się zalogować.'
     });
   }
 });
@@ -402,16 +464,24 @@ app.post('/api/login', async (req, res) => {
 // =====================================================
 
 app.post('/api/logout', (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     if (err) {
+      console.error(
+        'Logout error:',
+        err
+      );
+
       return res.status(500).json({
-        error: 'Nie udało się wylogować.'
+        error:
+          'Nie udało się wylogować.'
       });
     }
 
-    res.clearCookie('dominik.sid');
+    res.clearCookie(
+      'dominik.sid'
+    );
 
-    res.json({
+    return res.json({
       ok: true
     });
   });
@@ -422,7 +492,7 @@ app.post('/api/logout', (req, res) => {
 // =====================================================
 
 app.get('/api/me', (req, res) => {
-  res.json({
+  return res.json({
     user: req.session.user
       ? safeUser(req.session.user)
       : null
@@ -430,41 +500,49 @@ app.get('/api/me', (req, res) => {
 });
 
 // =====================================================
-// ORDERS
+// ORDERS — GET
 // =====================================================
 
-app.get('/api/orders', requireAuth, async (req, res) => {
-  try {
-    const [rows] = await pool.execute(
-      `SELECT
-         o.id,
-         o.price,
-         o.status,
-         o.notes,
-         o.created_at,
-         o.updated_at,
-         s.code AS service_code,
-         s.name AS service_name
-       FROM orders o
-       JOIN services s
-         ON s.id = o.service_id
-       WHERE o.user_id = ?
-       ORDER BY o.created_at DESC`,
-      [req.session.user.id]
-    );
+app.get(
+  '/api/orders',
+  requireAuth,
+  async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT
+           o.id,
+           o.price,
+           o.status,
+           o.notes,
+           o.created_at,
+           o.updated_at,
+           s.code AS service_code,
+           s.name AS service_name
+         FROM orders o
+         JOIN services s
+           ON s.id = o.service_id
+         WHERE o.user_id = $1
+         ORDER BY o.created_at DESC`,
+        [req.session.user.id]
+      );
 
-    res.json({
-      orders: rows
-    });
+      return res.json({
+        orders: result.rows
+      });
 
-  } catch (err) {
-    console.error('Orders error:', err);
+    } catch (err) {
+      console.error(
+        'Orders error:',
+        err
+      );
 
-    res.status(500).json({
-      error: 'Nie udało się pobrać zamówień.'
-    });
+      return res.status(500).json({
+        error:
+          'Nie udało się pobrać zamówień.'
+      });
+    }
   }
-});
+);
 
 // =====================================================
 // CREATE STRIPE CHECKOUT
@@ -481,7 +559,7 @@ app.post(
       if (!stripe) {
         return res.status(503).json({
           error:
-            'Płatności nie są jeszcze skonfigurowane. Ustaw STRIPE_SECRET_KEY.'
+            'Płatności nie są skonfigurowane.'
         });
       }
 
@@ -495,56 +573,76 @@ app.post(
 
       if (!SERVICES[serviceCode]) {
         return res.status(400).json({
-          error: 'Wybrana usługa nie istnieje.'
+          error:
+            'Wybrana usługa nie istnieje.'
         });
       }
 
-      const [serviceRows] = await pool.execute(
-        `SELECT
-           id,
-           code,
-           name,
-           price
-         FROM services
-         WHERE code = ?
-           AND active = 1
-         LIMIT 1`,
-        [serviceCode]
-      );
+      // Pobranie usługi z bazy
 
-      if (!serviceRows.length) {
+      const serviceResult =
+        await pool.query(
+          `SELECT
+             id,
+             code,
+             name,
+             price
+           FROM services
+           WHERE code = $1
+             AND active = TRUE
+           LIMIT 1`,
+          [serviceCode]
+        );
+
+      if (
+        serviceResult.rows.length === 0
+      ) {
         return res.status(400).json({
           error:
             'Ta usługa jest obecnie niedostępna.'
         });
       }
 
-      const service = serviceRows[0];
+      const service =
+        serviceResult.rows[0];
 
-      // Tworzymy zamówienie w MySQL.
-      const [orderResult] = await pool.execute(
-        `INSERT INTO orders
-         (user_id, service_id, price, status, notes)
-         VALUES (?, ?, ?, 'pending', ?)`,
-        [
-          req.session.user.id,
-          service.id,
-          service.price,
-          notes || null
-        ]
-      );
+      // Utworzenie zamówienia
 
-      orderId = orderResult.insertId;
+      const orderResult =
+        await pool.query(
+          `INSERT INTO orders
+           (
+             user_id,
+             service_id,
+             price,
+             status,
+             notes
+           )
+           VALUES
+           ($1, $2, $3, 'pending', $4)
+           RETURNING id`,
+          [
+            req.session.user.id,
+            service.id,
+            service.price,
+            notes || null
+          ]
+        );
 
-      // Tworzymy płatność Stripe.
+      orderId =
+        orderResult.rows[0].id;
+
+      // Stripe Checkout
+
       const checkout =
         await stripe.checkout.sessions.create({
-
           mode: 'payment',
 
           locale: 'pl',
 
-          payment_method_types: ['blik'],
+          payment_method_types: [
+            'blik'
+          ],
 
           customer_email:
             req.session.user.email,
@@ -565,7 +663,8 @@ app.post(
                   ),
 
                 product_data: {
-                  name: service.name,
+                  name:
+                    service.name,
 
                   description:
                     'Usługa montażu wideo — Dominik Studio'
@@ -575,10 +674,16 @@ app.post(
           ],
 
           metadata: {
-            order_id: String(orderId),
-            service: service.code,
+            order_id:
+              String(orderId),
+
+            service:
+              service.code,
+
             user_id:
-              String(req.session.user.id)
+              String(
+                req.session.user.id
+              )
           },
 
           success_url:
@@ -590,18 +695,19 @@ app.post(
             )}`
         });
 
-      // Zapisujemy ID sesji Stripe.
-      await pool.execute(
+      // Zapisanie ID Stripe
+
+      await pool.query(
         `UPDATE orders
-         SET stripe_session_id = ?
-         WHERE id = ?`,
+         SET stripe_session_id = $1
+         WHERE id = $2`,
         [
           checkout.id,
           orderId
         ]
       );
 
-      res.json({
+      return res.json({
         url: checkout.url
       });
 
@@ -612,16 +718,17 @@ app.post(
       );
 
       if (orderId) {
-        await pool.execute(
+        await pool.query(
           `UPDATE orders
-           SET status = 'cancelled'
-           WHERE id = ?
+           SET status = 'cancelled',
+               updated_at = CURRENT_TIMESTAMP
+           WHERE id = $1
              AND status = 'pending'`,
           [orderId]
         ).catch(() => {});
       }
 
-      res.status(500).json({
+      return res.status(500).json({
         error:
           'Nie udało się utworzyć płatności. Spróbuj ponownie.'
       });
@@ -637,7 +744,6 @@ app.get(
   '/api/payment-status',
   requireAuth,
   async (req, res) => {
-
     try {
       const sessionId = String(
         req.query.session_id || ''
@@ -653,30 +759,37 @@ app.get(
         });
       }
 
-      const [rows] = await pool.execute(
-        `SELECT
-           id,
-           status,
-           price,
-           stripe_session_id
-         FROM orders
-         WHERE stripe_session_id = ?
-           AND user_id = ?
-         LIMIT 1`,
-        [
-          sessionId,
-          req.session.user.id
-        ]
-      );
+      const result =
+        await pool.query(
+          `SELECT
+             id,
+             status,
+             price,
+             stripe_session_id
+           FROM orders
+           WHERE stripe_session_id = $1
+             AND user_id = $2
+           LIMIT 1`,
+          [
+            sessionId,
+            req.session.user.id
+          ]
+        );
 
-      if (!rows.length) {
+      if (
+        result.rows.length === 0
+      ) {
         return res.status(404).json({
           error:
             'Nie znaleziono zamówienia.'
         });
       }
 
-      let stripePaymentStatus = null;
+      const order =
+        result.rows[0];
+
+      let stripePaymentStatus =
+        null;
 
       if (stripe) {
         const checkout =
@@ -687,35 +800,43 @@ app.get(
         stripePaymentStatus =
           checkout.payment_status;
 
-        // Awaryjna synchronizacja.
+        // Awaryjna synchronizacja
+
         if (
-          checkout.payment_status === 'paid' &&
-          rows[0].status !== 'paid'
+          checkout.payment_status ===
+            'paid' &&
+          order.status !== 'paid'
         ) {
-          await pool.execute(
+          await pool.query(
             `UPDATE orders
              SET status = 'paid',
-                 stripe_payment_intent_id = ?,
+                 stripe_payment_intent_id = $1,
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = ?
-               AND user_id = ?`,
+             WHERE id = $2
+               AND user_id = $3`,
             [
-              checkout.payment_intent || null,
-              rows[0].id,
+              checkout.payment_intent ||
+                null,
+
+              order.id,
+
               req.session.user.id
             ]
           );
 
-          rows[0].status = 'paid';
+          order.status = 'paid';
         }
       }
 
-      res.json({
-        orderId: rows[0].id,
-        status: rows[0].status,
+      return res.json({
+        orderId: order.id,
+
+        status: order.status,
+
         stripePaymentStatus,
+
         paid:
-          rows[0].status === 'paid' ||
+          order.status === 'paid' ||
           stripePaymentStatus === 'paid'
       });
 
@@ -725,7 +846,7 @@ app.get(
         err
       );
 
-      res.status(500).json({
+      return res.status(500).json({
         error:
           'Nie udało się sprawdzić statusu płatności.'
       });
@@ -737,63 +858,106 @@ app.get(
 // HEALTH CHECK
 // =====================================================
 
-app.get('/api/health', async (_req, res) => {
-  let mysqlOk = false;
+app.get(
+  '/api/health',
+  async (_req, res) => {
+    let databaseOk = false;
 
-  try {
-    await pool.query('SELECT 1');
-    mysqlOk = true;
-  } catch (err) {
-    console.error(
-      'Health MySQL error:',
-      err.message
-    );
+    try {
+      await pool.query(
+        'SELECT 1'
+      );
+
+      databaseOk = true;
+
+    } catch (err) {
+      console.error(
+        'Database health error:',
+        err.message
+      );
+    }
+
+    return res.json({
+      ok: true,
+
+      database:
+        databaseOk,
+
+      stripeConfigured:
+        Boolean(stripe),
+
+      baseUrl:
+        BASE_URL
+    });
   }
-
-  res.json({
-    ok: true,
-    mysql: mysqlOk,
-    stripeConfigured:
-      Boolean(stripe),
-    baseUrl: BASE_URL
-  });
-});
+);
 
 // =====================================================
 // START
 // =====================================================
 
-app.listen(PORT, async () => {
-  console.log('==============================================');
-  console.log('Dominik Studio startuje...');
-  console.log(`PORT: ${PORT}`);
-  console.log(`BASE_URL: ${BASE_URL}`);
-  console.log(
-    `MySQL host: ${dbConfig.host || 'BRAK'}`
-  );
-  console.log(
-    `MySQL database: ${dbConfig.database || 'BRAK'}`
-  );
-  console.log(
-    `Stripe: ${stripe ? 'SKONFIGUROWANY' : 'BRAK'}`
-  );
-  console.log('==============================================');
-
-  try {
-    await pool.query('SELECT 1');
+app.listen(
+  PORT,
+  async () => {
+    console.log(
+      '=============================================='
+    );
 
     console.log(
-      'MySQL: połączono z bazą dominik_studio.'
+      'Dominik Studio startuje...'
     );
 
-  } catch (err) {
-    console.error(
-      'MySQL: BRAK POŁĄCZENIA:',
-      err.message
+    console.log(
+      `PORT: ${PORT}`
+    );
+
+    console.log(
+      `BASE_URL: ${BASE_URL}`
+    );
+
+    console.log(
+      `Database: ${
+        process.env.DATABASE_URL
+          ? 'SKONFIGUROWANA'
+          : 'BRAK'
+      }`
+    );
+
+    console.log(
+      `Stripe: ${
+        stripe
+          ? 'SKONFIGUROWANY'
+          : 'BRAK'
+      }`
+    );
+
+    console.log(
+      '=============================================='
+    );
+
+    try {
+      await pool.query(
+        'SELECT 1'
+      );
+
+      console.log(
+        'PostgreSQL: POŁĄCZONO Z SUPABASE.'
+      );
+
+    } catch (err) {
+      console.error(
+        'PostgreSQL: BRAK POŁĄCZENIA!'
+      );
+
+      console.error(
+        err.message
+      );
+    }
+
+    console.log(
+      `Dominik Studio działa: ${BASE_URL}`
     );
   }
+);
+```
 
-  console.log(
-    `Dominik Studio działa: ${BASE_URL}`
-  );
-});
