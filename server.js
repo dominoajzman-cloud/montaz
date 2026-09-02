@@ -139,10 +139,6 @@ app.use(express.json());
 // SESJE
 // =====================================================
 
-// WAŻNE NA RENDERZE:
-// Render działa za reverse proxy.
-// Bez tego secure cookies mogą nie działać prawidłowo.
-
 app.set('trust proxy', 1);
 
 app.use(
@@ -530,9 +526,14 @@ app.post(
 
           locale: 'pl',
 
-          payment_method_types: [
-            'blik'
-          ],
+          // =================================================
+          // AUTOMATYCZNE METODY PŁATNOŚCI STRIPE
+          // =================================================
+          // Stripe pokaże metody aktywne i dostępne
+          // dla danego klienta, urządzenia i waluty.
+          automatic_payment_methods: {
+            enabled: true
+          },
 
           customer_email:
             req.session.user.email,
