@@ -14,22 +14,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================
-       PORTFOLIO VIDEO SLIDER
-       ========================= */
+    /* ==============================
+       PORTFOLIO — VIDEO SLIDER
+       ============================== */
 
     .portfolio-video-slider {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 14px;
     }
 
     .portfolio-video-box {
       position: relative;
       width: 100%;
-      height: 450px;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
       border-radius: 18px;
       background: #050505;
@@ -53,7 +53,7 @@
       border-radius: 50%;
 
       background: rgba(255,255,255,.035);
-      color: white;
+      color: #fff;
 
       font-size: 24px;
       line-height: 1;
@@ -81,7 +81,7 @@
     }
 
     .portfolio-video-counter {
-      margin-top: 14px;
+      margin-top: 12px;
 
       display: flex;
       justify-content: center;
@@ -100,11 +100,10 @@
     @media (max-width: 700px) {
 
       .portfolio-video-slider {
-        gap: 8px;
+        gap: 7px;
       }
 
       .portfolio-video-box {
-        height: 390px;
         border-radius: 14px;
       }
 
@@ -123,33 +122,52 @@
   <div class="ambient ambient-one"></div>
   <div class="ambient ambient-two"></div>
 
+
+  <!-- ==============================
+       HEADER
+       ============================== -->
+
   <header class="site-header" id="top">
 
     <a class="brand" href="#top" aria-label="Dominik Studio — strona główna">
+
       <span class="brand-mark">D</span>
 
       <span>
         <strong>DOMINIK</strong>
         <small>STUDIO / EDITING</small>
       </span>
+
     </a>
 
+
     <nav class="desktop-nav" aria-label="Główna nawigacja">
+
       <a href="#uslugi">Usługi</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#cennik">Cennik</a>
       <a href="#kontakt">Kontakt</a>
+
     </nav>
 
+
     <div style="display:flex;align-items:center;gap:10px">
-      <a id="accountLink" class="header-cta" href="login.html">
+
+      <a
+        id="accountLink"
+        class="header-cta"
+        href="login.html">
         Zaloguj się
       </a>
 
-      <a class="header-cta" href="payment.html">
+      <a
+        class="header-cta"
+        href="payment.html">
         Zamów projekt <span>↗</span>
       </a>
+
     </div>
+
 
     <button
       class="menu-toggle"
@@ -161,11 +179,13 @@
   </header>
 
 
+
   <main>
 
-    <!-- =========================
+
+    <!-- ==============================
          HERO
-         ========================= -->
+         ============================== -->
 
     <section class="hero section">
 
@@ -183,21 +203,27 @@
 
         <p>
           Profesjonalny montaż wideo dla twórców, marek i osób,
-          które chcą publikować lepsze materiały bez tracenia czasu
-          na montaż.
+          które chcą publikować lepsze materiały bez tracenia
+          czasu na montaż.
         </p>
+
 
         <div class="hero-actions">
 
-          <a class="btn btn-primary" href="payment.html">
+          <a
+            class="btn btn-primary"
+            href="payment.html">
             Zamów online <span>→</span>
           </a>
 
-          <a class="btn btn-ghost" href="#portfolio">
+          <a
+            class="btn btn-ghost"
+            href="#portfolio">
             Zobacz portfolio
           </a>
 
         </div>
+
 
         <div class="hero-trust">
 
@@ -221,15 +247,22 @@
       </div>
 
 
-      <div class="hero-visual reveal delay-1" aria-hidden="true">
+      <div
+        class="hero-visual reveal delay-1"
+        aria-hidden="true">
 
         <div class="visual-card visual-main">
 
           <div class="visual-top">
+
             <span class="rec-dot"></span>
+
             EDITING SESSION
+
             <span>00:42:18</span>
+
           </div>
+
 
           <div class="visual-screen">
 
@@ -246,26 +279,42 @@
 
           </div>
 
+
           <div class="timeline">
+
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             <span></span>
+
           </div>
 
         </div>
 
+
         <div class="floating-card card-price">
+
           od <strong>5 zł</strong>
-          <small>za usługę</small>
+
+          <small>
+            za usługę
+          </small>
+
         </div>
 
+
         <div class="floating-card card-status">
+
           <span class="pulse"></span>
+
           NOWE ZLECENIA
-          <strong>OPEN</strong>
+
+          <strong>
+            OPEN
+          </strong>
+
         </div>
 
       </div>
@@ -273,35 +322,56 @@
     </section>
 
 
-    <!-- =========================
+
+    <!-- ==============================
          STATS
-         ========================= -->
+         ============================== -->
 
     <section class="stats">
 
       <div>
+
         <strong>VIDEO</strong>
-        <span>Shortsy / Reels / TikTok / YouTube</span>
+
+        <span>
+          Shortsy / Reels / TikTok / YouTube
+        </span>
+
       </div>
 
+
       <div>
+
         <strong>EDITING</strong>
-        <span>Shorty / filmy / serie materiałów</span>
+
+        <span>
+          Shorty / filmy / serie materiałów
+        </span>
+
       </div>
 
+
       <div>
+
         <strong>PROCESS</strong>
-        <span>Brief → realizacja → poprawki → gotowe</span>
+
+        <span>
+          Brief → realizacja → poprawki → gotowe
+        </span>
+
       </div>
 
     </section>
 
 
-    <!-- =========================
-         USŁUGI
-         ========================= -->
 
-    <section class="section services" id="uslugi">
+    <!-- ==============================
+         USŁUGI
+         ============================== -->
+
+    <section
+      class="section services"
+      id="uslugi">
 
       <div class="section-heading reveal">
 
@@ -319,9 +389,11 @@
 
         </div>
 
+
         <p>
-          Wybierasz usługę, przesyłasz materiały i opisujesz
-          oczekiwany efekt. Resztą zajmuję się ja.
+          Wybierasz usługę, przesyłasz materiały
+          i opisujesz oczekiwany efekt.
+          Resztą zajmuję się ja.
         </p>
 
       </div>
@@ -329,17 +401,25 @@
 
       <div class="service-grid">
 
+
         <article class="service-card reveal">
 
-          <span class="service-number">01</span>
+          <span class="service-number">
+            01
+          </span>
 
-          <div class="service-icon">▶</div>
+          <div class="service-icon">
+            ▶
+          </div>
 
-          <h3>Krótki film</h3>
+          <h3>
+            Krótki film
+          </h3>
 
           <p>
-            TikTok, Short lub rolka. Dynamiczny montaż krótkiej
-            formy gotowej do publikacji.
+            TikTok, Short lub rolka.
+            Dynamiczny montaż krótkiej formy
+            gotowej do publikacji.
           </p>
 
           <a href="payment.html?service=short">
@@ -349,16 +429,24 @@
         </article>
 
 
+
         <article class="service-card featured reveal delay-1">
 
-          <span class="service-number">02</span>
+          <span class="service-number">
+            02
+          </span>
 
-          <div class="service-icon">▣</div>
+          <div class="service-icon">
+            ▣
+          </div>
 
-          <h3>Dłuższy materiał</h3>
+          <h3>
+            Dłuższy materiał
+          </h3>
 
           <p>
-            Pełniejszy montaż materiału z uporządkowaniem ujęć,
+            Pełniejszy montaż materiału
+            z uporządkowaniem ujęć,
             rytmem i dopracowaniem całości.
           </p>
 
@@ -373,16 +461,24 @@
         </article>
 
 
+
         <article class="service-card reveal delay-2">
 
-          <span class="service-number">03</span>
+          <span class="service-number">
+            03
+          </span>
 
-          <div class="service-icon">◉</div>
+          <div class="service-icon">
+            ◉
+          </div>
 
-          <h3>Bardzo długi materiał</h3>
+          <h3>
+            Bardzo długi materiał
+          </h3>
 
           <p>
-            Duży projekt dla ponad godziny surowego materiału.
+            Duży projekt dla ponad godziny
+            surowego materiału.
           </p>
 
           <a href="payment.html?service=veryLong">
@@ -392,13 +488,20 @@
         </article>
 
 
+
         <article class="service-card reveal">
 
-          <span class="service-number">04</span>
+          <span class="service-number">
+            04
+          </span>
 
-          <div class="service-icon">10×</div>
+          <div class="service-icon">
+            10×
+          </div>
 
-          <h3>10 × krótki film</h3>
+          <h3>
+            10 × krótki film
+          </h3>
 
           <p>
             Pakiet dziesięciu krótkich materiałów —
@@ -412,16 +515,24 @@
         </article>
 
 
+
         <article class="service-card reveal delay-1">
 
-          <span class="service-number">05</span>
+          <span class="service-number">
+            05
+          </span>
 
-          <div class="service-icon">10×</div>
+          <div class="service-icon">
+            10×
+          </div>
 
-          <h3>10 × dłuższy materiał</h3>
+          <h3>
+            10 × dłuższy materiał
+          </h3>
 
           <p>
-            Pakiet dziesięciu dłuższych filmów w korzystniejszej cenie.
+            Pakiet dziesięciu dłuższych filmów
+            w korzystniejszej cenie.
           </p>
 
           <a href="payment.html?service=long10">
@@ -431,17 +542,24 @@
         </article>
 
 
+
         <article class="service-card reveal delay-2">
 
-          <span class="service-number">06</span>
+          <span class="service-number">
+            06
+          </span>
 
-          <div class="service-icon">10×</div>
+          <div class="service-icon">
+            10×
+          </div>
 
-          <h3>10 × bardzo długi</h3>
+          <h3>
+            10 × bardzo długi
+          </h3>
 
           <p>
-            Pakiet dziesięciu dużych realizacji dla ponad godziny
-            surowego materiału każda.
+            Pakiet dziesięciu dużych realizacji
+            dla ponad godziny surowego materiału każda.
           </p>
 
           <a href="payment.html?service=veryLong10">
@@ -455,17 +573,21 @@
     </section>
 
 
-    <!-- =========================
-         O MNIE
-         ========================= -->
 
-    <section class="section about" id="o-mnie">
+    <!-- ==============================
+         O MNIE
+         ============================== -->
+
+    <section
+      class="section about"
+      id="o-mnie">
 
       <div class="about-panel reveal">
 
         <div class="about-mark">
           D<span>+</span>
         </div>
+
 
         <div>
 
@@ -494,27 +616,50 @@
       <div class="about-points reveal delay-1">
 
         <div>
+
           <strong>01</strong>
-          <b>Uniwersalność</b>
+
+          <b>
+            Uniwersalność
+          </b>
+
           <span>
-            Od dynamicznych shortów po profesjonalne realizacje.
+            Od dynamicznych shortów
+            po profesjonalne realizacje.
           </span>
+
         </div>
 
+
         <div>
+
           <strong>02</strong>
-          <b>Indywidualne podejście</b>
+
+          <b>
+            Indywidualne podejście
+          </b>
+
           <span>
-            Każdy projekt zaczynam od Twojej wizji.
+            Każdy projekt zaczynam
+            od Twojej wizji.
           </span>
+
         </div>
 
+
         <div>
+
           <strong>03</strong>
-          <b>Terminowość</b>
+
+          <b>
+            Terminowość
+          </b>
+
           <span>
-            Konkretny kontakt i jasny proces pracy.
+            Konkretny kontakt
+            i jasny proces pracy.
           </span>
+
         </div>
 
       </div>
@@ -522,11 +667,15 @@
     </section>
 
 
-    <!-- =========================
-         PORTFOLIO
-         ========================= -->
 
-    <section class="section portfolio" id="portfolio">
+    <!-- ==============================
+         PORTFOLIO
+         ============================== -->
+
+    <section
+      class="section portfolio"
+      id="portfolio">
+
 
       <div class="section-heading reveal">
 
@@ -543,32 +692,43 @@
 
         </div>
 
+
         <p>
-          Poniżej przykładowe materiały. Kliknij strzałki,
-          aby zobaczyć kolejne realizacje.
+          Poniżej przykładowe materiały.
+          Kliknij strzałki, aby zobaczyć
+          kolejne realizacje.
         </p>
 
       </div>
 
 
+
       <div class="portfolio-grid">
 
 
-        <!-- LEWA STRONA — FILMY -->
+        <!-- ==========================
+             LEWA KARTA — SLIDER
+             ========================== -->
 
         <article class="work-card video-work reveal">
 
+
           <div class="work-media">
 
+
             <div class="portfolio-video-slider">
+
 
               <button
                 class="portfolio-arrow portfolio-arrow-left"
                 id="portfolioPrev"
                 type="button"
                 aria-label="Poprzedni film">
+
                 ←
+
               </button>
+
 
 
               <div class="portfolio-video-box">
@@ -579,9 +739,14 @@
                   controls
                   playsinline
                   preload="metadata">
+
+                  Twoja przeglądarka
+                  nie obsługuje odtwarzania wideo.
+
                 </video>
 
               </div>
+
 
 
               <button
@@ -589,8 +754,11 @@
                 id="portfolioNext"
                 type="button"
                 aria-label="Następny film">
+
                 →
+
               </button>
+
 
             </div>
 
@@ -601,37 +769,49 @@
                 01
               </span>
 
-              <span>/</span>
+              <span>
+                /
+              </span>
 
               <span id="portfolioTotal">
-                04
+                08
               </span>
 
             </div>
+
 
           </div>
 
 
           <div class="work-meta">
 
-            <span>VIDEO</span>
+            <span>
+              VIDEO
+            </span>
 
             <h3 id="portfolioTitle">
-              Przykładowy montaż
+              Nagranie 1
             </h3>
 
           </div>
 
+
         </article>
 
 
-        <!-- PRAWA STRONA — DEKORACYJNY PANEL -->
 
-        <article class="work-card graphic-work reveal delay-1">
+        <!-- ==========================
+             PRAWA KARTA — DESIGN
+             ========================== -->
+
+        <article
+          class="work-card graphic-work reveal delay-1">
+
 
           <div class="graphic-placeholder">
 
             <div class="placeholder-grid"></div>
+
 
             <div class="placeholder-copy">
 
@@ -651,7 +831,9 @@
 
           <div class="work-meta">
 
-            <span>VIDEO</span>
+            <span>
+              VIDEO
+            </span>
 
             <h3>
               Przykładowy montaż
@@ -659,18 +841,25 @@
 
           </div>
 
+
         </article>
 
+
       </div>
+
 
     </section>
 
 
-    <!-- =========================
-         CENNIK
-         ========================= -->
 
-    <section class="section pricing" id="cennik">
+    <!-- ==============================
+         CENNIK
+         ============================== -->
+
+    <section
+      class="section pricing"
+      id="cennik">
+
 
       <div class="section-heading reveal">
 
@@ -687,109 +876,188 @@
 
         </div>
 
+
         <p>
-          Wybierz pojedynczy montaż albo jeden z pakietów
-          10 materiałów. Ceny są podane jasno z góry.
+          Wybierz pojedynczy montaż albo jeden
+          z pakietów 10 materiałów.
+          Ceny są podane jasno z góry.
         </p>
 
       </div>
 
 
+
       <div class="price-table reveal">
 
-        <a class="price-row" href="payment.html?service=short">
+
+        <a
+          class="price-row"
+          href="payment.html?service=short">
 
           <span>
-            <b>Krótki film</b>
-            <small>TikTok / Short / rolka</small>
+            <b>
+              Krótki film
+            </b>
+
+            <small>
+              TikTok / Short / rolka
+            </small>
           </span>
 
-          <strong>5 zł</strong>
+          <strong>
+            5 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
 
 
-        <a class="price-row" href="payment.html?service=long">
+
+        <a
+          class="price-row"
+          href="payment.html?service=long">
 
           <span>
-            <b>Dłuższy materiał</b>
-            <small>pojedynczy materiał</small>
+            <b>
+              Dłuższy materiał
+            </b>
+
+            <small>
+              pojedynczy materiał
+            </small>
           </span>
 
-          <strong>10 zł</strong>
+          <strong>
+            10 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
 
 
-        <a class="price-row" href="payment.html?service=veryLong">
+
+        <a
+          class="price-row"
+          href="payment.html?service=veryLong">
 
           <span>
-            <b>Bardzo długi materiał</b>
-            <small>ponad godzina surowego materiału</small>
+            <b>
+              Bardzo długi materiał
+            </b>
+
+            <small>
+              ponad godzina surowego materiału
+            </small>
           </span>
 
-          <strong>20 zł</strong>
+          <strong>
+            20 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
 
 
-        <a class="price-row" href="payment.html?service=short10">
+
+        <a
+          class="price-row"
+          href="payment.html?service=short10">
 
           <span>
-            <b>10 × krótki film</b>
-            <small>pakiet 10 TikToków / Shortsów / rolek</small>
+            <b>
+              10 × krótki film
+            </b>
+
+            <small>
+              pakiet 10 TikToków / Shortsów / rolek
+            </small>
           </span>
 
-          <strong>35 zł</strong>
+          <strong>
+            35 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
 
 
-        <a class="price-row" href="payment.html?service=long10">
+
+        <a
+          class="price-row"
+          href="payment.html?service=long10">
 
           <span>
-            <b>10 × dłuższy materiał</b>
-            <small>pakiet 10 materiałów</small>
+            <b>
+              10 × dłuższy materiał
+            </b>
+
+            <small>
+              pakiet 10 materiałów
+            </small>
           </span>
 
-          <strong>75 zł</strong>
+          <strong>
+            75 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
 
 
-        <a class="price-row" href="payment.html?service=veryLong10">
+
+        <a
+          class="price-row"
+          href="payment.html?service=veryLong10">
 
           <span>
-            <b>10 × bardzo długi materiał</b>
-            <small>pakiet 10 dużych realizacji</small>
+            <b>
+              10 × bardzo długi materiał
+            </b>
+
+            <small>
+              pakiet 10 dużych realizacji
+            </small>
           </span>
 
-          <strong>139,99 zł</strong>
+          <strong>
+            139,99 zł
+          </strong>
 
-          <i>→</i>
+          <i>
+            →
+          </i>
 
         </a>
+
 
       </div>
 
     </section>
 
 
-    <!-- =========================
-         ORDER
-         ========================= -->
 
-    <section class="section order-banner">
+    <!-- ==============================
+         ORDER BANNER
+         ============================== -->
+
+    <section
+      class="section order-banner">
+
 
       <div class="order-content reveal">
 
@@ -808,54 +1076,74 @@
         </div>
 
 
-        <a class="btn btn-primary" href="payment.html">
-          Wybierz usługę <span>→</span>
+        <a
+          class="btn btn-primary"
+          href="payment.html">
+
+          Wybierz usługę
+          <span>→</span>
+
         </a>
 
       </div>
 
+
     </section>
+
 
   </main>
 
 
-  <!-- =========================
+
+  <!-- ==============================
        FOOTER
-       ========================= -->
+       ============================== -->
 
   <footer id="kontakt">
+
 
     <div class="footer-main">
 
 
       <div class="footer-brand">
 
-        <a class="brand" href="#top">
+        <a
+          class="brand"
+          href="#top">
 
           <span class="brand-mark">
             D
           </span>
 
           <span>
-            <strong>DOMINIK</strong>
-            <small>STUDIO / EDITING</small>
+            <strong>
+              DOMINIK
+            </strong>
+
+            <small>
+              STUDIO / EDITING
+            </small>
           </span>
 
         </a>
 
 
         <p>
-          Montaż wideo dla twórców, marek i osób,
-          które chcą publikować profesjonalne materiały
+          Montaż wideo dla twórców, marek
+          i osób, które chcą publikować
+          profesjonalne materiały
           bez samodzielnego montowania.
         </p>
 
       </div>
 
 
+
       <div class="footer-col">
 
-        <h4>KONTAKT</h4>
+        <h4>
+          KONTAKT
+        </h4>
 
         <a href="mailto:dominigkontakt@gmail.com">
           dominigkontakt@gmail.com
@@ -868,9 +1156,12 @@
       </div>
 
 
+
       <div class="footer-col">
 
-        <h4>SOCIALE</h4>
+        <h4>
+          SOCIALE
+        </h4>
 
         <a
           href="https://www.youtube.com/@MorcinLominig"
@@ -902,6 +1193,7 @@
 
       </div>
 
+
     </div>
 
 
@@ -917,19 +1209,22 @@
 
     </div>
 
+
   </footer>
 
 
-  <!-- =========================
+
+  <!-- ==============================
        GŁÓWNY SCRIPT
-       ========================= -->
+       ============================== -->
 
   <script src="script.js"></script>
 
 
-  <!-- =========================
-       PORTFOLIO SLIDER SCRIPT
-       ========================= -->
+
+  <!-- ==============================
+       PORTFOLIO SLIDER
+       ============================== -->
 
   <script>
 
@@ -963,30 +1258,54 @@
       }
 
 
+
       /*
-       * FILMY Z GŁÓWNEGO KATALOGU REPOZYTORIUM
+       * DOKŁADNIE 8 FILMÓW
+       *
+       * Wszystkie znajdują się
+       * bezpośrednio w repozytorium.
        */
 
       const films = [
 
         {
-          file: "a mi to wisi.mp4",
-          name: "A mi to wisi"
+          file: "nagranie1.mp4",
+          name: "Nagranie 1"
         },
 
         {
-          file: "dziurawe ręcę.mp4",
-          name: "Dziurawe ręcę"
+          file: "nagranie2.mp4",
+          name: "Nagranie 2"
         },
 
         {
-          file: "ratuj mnie!.mp4",
-          name: "Ratuj mnie!"
+          file: "nagranie3.mp4",
+          name: "Nagranie 3"
         },
 
         {
-          file: "suchar.mp4",
-          name: "Suchar"
+          file: "nagranie4.mp4",
+          name: "Nagranie 4"
+        },
+
+        {
+          file: "nagranie5.mp4",
+          name: "Nagranie 5"
+        },
+
+        {
+          file: "nagranie6.mp4",
+          name: "Nagranie 6"
+        },
+
+        {
+          file: "nagranie7.mp4",
+          name: "Nagranie 7"
+        },
+
+        {
+          file: "nagranie8.mp4",
+          name: "Nagranie 8"
         }
 
       ];
@@ -995,41 +1314,94 @@
       let currentIndex = 0;
 
 
+      /*
+       * Liczba filmów
+       */
+
       totalNumber.textContent =
         String(films.length).padStart(2, "0");
 
 
+
+      /*
+       * ŁADOWANIE FILMU
+       */
+
       function loadFilm(index) {
 
+
+        /*
+         * Zapętlenie:
+         * po 8 wraca do 1,
+         * przed 1 przechodzi do 8.
+         */
+
         if (index < 0) {
+
           index = films.length - 1;
+
         }
 
+
         if (index >= films.length) {
+
           index = 0;
+
         }
 
 
         currentIndex = index;
 
 
+        /*
+         * Zatrzymaj poprzedni film
+         */
+
         video.pause();
 
 
-        const filename =
+        /*
+         * Usuń poprzednie źródło
+         */
+
+        video.removeAttribute("src");
+
+
+        /*
+         * Ustaw nowe źródło.
+         *
+         * encodeURIComponent zabezpiecza
+         * nazwę pliku przed problemami
+         * ze spacjami i znakami specjalnymi.
+         */
+
+        const fileName =
           encodeURIComponent(
             films[currentIndex].file
           );
 
 
-        video.src = filename;
+        video.src = fileName;
+
+
+        /*
+         * Załaduj nowy plik
+         */
 
         video.load();
 
 
+        /*
+         * Numer filmu
+         */
+
         currentNumber.textContent =
           String(currentIndex + 1).padStart(2, "0");
 
+
+        /*
+         * Nazwa filmu
+         */
 
         if (title) {
 
@@ -1041,13 +1413,25 @@
       }
 
 
+
+      /*
+       * NASTĘPNY FILM
+       */
+
       function nextFilm() {
 
         const wasPlaying =
-          !video.paused;
+          !video.paused &&
+          !video.ended;
+
 
         loadFilm(currentIndex + 1);
 
+
+        /*
+         * Jeżeli poprzedni film był odtwarzany,
+         * spróbuj automatycznie rozpocząć kolejny.
+         */
 
         if (wasPlaying) {
 
@@ -1058,10 +1442,17 @@
       }
 
 
+
+      /*
+       * POPRZEDNI FILM
+       */
+
       function previousFilm() {
 
         const wasPlaying =
-          !video.paused;
+          !video.paused &&
+          !video.ended;
+
 
         loadFilm(currentIndex - 1);
 
@@ -1075,16 +1466,27 @@
       }
 
 
+
+      /*
+       * KLIKNIĘCIE PRAWEJ STRZAŁKI
+       */
+
       nextButton.addEventListener(
         "click",
         nextFilm
       );
 
 
+
+      /*
+       * KLIKNIĘCIE LEWEJ STRZAŁKI
+       */
+
       prevButton.addEventListener(
         "click",
         previousFilm
       );
+
 
 
       /*
@@ -1095,33 +1497,42 @@
         "keydown",
         (event) => {
 
+
           /*
-           * Nie zmieniaj filmu,
-           * jeśli użytkownik pisze w polu tekstowym.
+           * Nie reaguj, jeśli użytkownik
+           * pisze w polu tekstowym.
            */
 
-          const tag =
-            document.activeElement
-              ? document.activeElement.tagName
-              : "";
-
+          const activeElement =
+            document.activeElement;
 
           if (
-            tag === "INPUT" ||
-            tag === "TEXTAREA"
+            activeElement &&
+            (
+              activeElement.tagName === "INPUT" ||
+              activeElement.tagName === "TEXTAREA"
+            )
           ) {
+
             return;
+
           }
 
 
-          if (event.key === "ArrowRight") {
+
+          if (
+            event.key === "ArrowRight"
+          ) {
 
             nextFilm();
 
           }
 
 
-          if (event.key === "ArrowLeft") {
+
+          if (
+            event.key === "ArrowLeft"
+          ) {
 
             previousFilm();
 
@@ -1131,8 +1542,9 @@
       );
 
 
+
       /*
-       * URUCHOMIENIE PIERWSZEGO FILMU
+       * PIERWSZY FILM
        */
 
       loadFilm(0);
@@ -1142,9 +1554,10 @@
   </script>
 
 
-  <!-- =========================
+
+  <!-- ==============================
        LOGOWANIE / KONTO
-       ========================= -->
+       ============================== -->
 
   <script>
 
@@ -1155,8 +1568,11 @@
         const accountLink =
           document.getElementById("accountLink");
 
+
         if (!accountLink) {
+
           return;
+
         }
 
 
@@ -1182,6 +1598,7 @@
       .catch(() => {});
 
   </script>
+
 
 </body>
 </html>
