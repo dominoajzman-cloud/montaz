@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Zamów usługę montażu wideo w Dominik Studio.">
-  <meta name="theme-color" content="#0b0506">
-  <title>Zamów usługę — Dominik Studio</title>
 
-  <link rel="stylesheet" href="style.css">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta
+    name="description"
+    content="Zamów usługę montażu wideo w Dominik Studio."
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b0506"
+  >
+
+  <title>
+    Zamów usługę — Dominik Studio
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap"
@@ -18,6 +46,7 @@
   >
 
   <style>
+
     .checkout-page{
       min-height:100vh;
       padding:130px 20px 80px
@@ -46,14 +75,26 @@
     }
 
     .checkout-card{
-      background:linear-gradient(145deg,#160b0d,#0b0708);
+      background:
+        linear-gradient(
+          145deg,
+          #160b0d,
+          #0b0708
+        );
+
       border:1px solid var(--line);
       border-radius:18px;
       padding:35px
     }
 
     .checkout-card h1{
-      font-size:clamp(2.5rem,5vw,4.4rem);
+      font-size:
+        clamp(
+          2.5rem,
+          5vw,
+          4.4rem
+        );
+
       margin-bottom:18px
     }
 
@@ -71,13 +112,28 @@
 
     .service-option{
       position:relative;
+
       display:grid;
-      grid-template-columns:1fr auto;
+
+      grid-template-columns:
+        1fr auto;
+
       gap:15px;
+
       padding:16px;
+
       border:1px solid var(--line);
+
       border-radius:11px;
-      background:rgba(255,255,255,.02);
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .02
+        );
+
       cursor:pointer
     }
 
@@ -86,13 +142,29 @@
       opacity:0
     }
 
-    .service-option:has(input:checked){
-      border-color:rgba(255,43,43,.65);
-      background:rgba(255,43,43,.08)
+    .service-option:has(
+      input:checked
+    ){
+      border-color:
+        rgba(
+          255,
+          43,
+          43,
+          .65
+        );
+
+      background:
+        rgba(
+          255,
+          43,
+          43,
+          .08
+        )
     }
 
     .service-option b{
-      font:600 12px Poppins
+      font:
+        600 12px Poppins
     }
 
     .service-option small{
@@ -103,15 +175,23 @@
     }
 
     .service-option strong{
-      font:700 13px Poppins
+      font:
+        700 13px Poppins
     }
 
     .order-summary{
       margin-top:22px;
+
       padding-top:22px;
-      border-top:1px solid var(--line);
+
+      border-top:
+        1px solid var(--line);
+
       display:flex;
-      justify-content:space-between;
+
+      justify-content:
+        space-between;
+
       align-items:end
     }
 
@@ -121,7 +201,9 @@
     }
 
     .order-summary strong{
-      font:700 28px Poppins;
+      font:
+        700 28px Poppins;
+
       color:var(--red)
     }
 
@@ -133,23 +215,38 @@
 
     .field label{
       display:block;
+
       color:#9a8b8d;
+
       font-size:9px;
+
       font-weight:700;
+
       letter-spacing:.1em;
+
       margin-bottom:7px
     }
 
     .field input,
     .field textarea{
+
       width:100%;
+
       padding:13px 14px;
+
       border-radius:9px;
-      border:1px solid var(--line);
+
+      border:
+        1px solid var(--line);
+
       background:#090607;
+
       color:#fff;
+
       outline:none;
+
       font:inherit;
+
       font-size:12px
     }
 
@@ -160,40 +257,78 @@
 
     .field input:focus,
     .field textarea:focus{
-      border-color:rgba(255,43,43,.65);
-      box-shadow:0 0 0 3px rgba(255,43,43,.08)
+
+      border-color:
+        rgba(
+          255,
+          43,
+          43,
+          .65
+        );
+
+      box-shadow:
+        0 0 0 3px
+        rgba(
+          255,
+          43,
+          43,
+          .08
+        )
     }
 
     .checkout-submit{
+
       width:100%;
+
       border:0;
+
       cursor:pointer;
+
       justify-content:center;
+
       margin-top:5px
     }
 
+    .checkout-submit:disabled{
+      cursor:not-allowed
+    }
+
     .checkout-note{
+
       font-size:9px!important;
+
       color:#625759!important;
+
       text-align:center
     }
 
     .status{
+
       min-height:18px;
+
       color:#ff8185;
+
       font-size:10px;
+
       text-align:center
     }
 
     .secure-list{
+
       margin-top:28px;
+
       display:grid;
+
       gap:10px
     }
 
     .secure-list div{
+
       font-size:10px;
-      color:#827477
+
+      color:#827477;
+
+      line-height:1.5
     }
 
     .secure-list b{
@@ -201,6 +336,7 @@
     }
 
     @media(max-width:800px){
+
       .checkout-grid{
         grid-template-columns:1fr
       }
@@ -208,24 +344,47 @@
       .checkout-page{
         padding-top:110px
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
   <header class="site-header">
 
-    <a class="brand" href="index.html">
-      <span class="brand-mark">D</span>
+    <a
+      class="brand"
+      href="index.html"
+    >
+
+      <span class="brand-mark">
+        D
+      </span>
 
       <span>
-        <strong>DOMINIK</strong>
-        <small>STUDIO / EDITING</small>
+
+        <strong>
+          DOMINIK
+        </strong>
+
+        <small>
+          STUDIO / EDITING
+        </small>
+
       </span>
+
     </a>
 
-    <a class="header-cta" href="index.html">
+
+    <a
+      class="header-cta"
+      href="index.html"
+    >
       ← Wróć na stronę
     </a>
 
@@ -236,7 +395,11 @@
 
     <div class="checkout-shell">
 
-      <a class="back-link" href="index.html">
+
+      <a
+        class="back-link"
+        href="index.html"
+      >
         ← Powrót do strony głównej
       </a>
 
@@ -244,31 +407,51 @@
       <div class="checkout-grid">
 
 
-        <!-- LEWA STRONA -->
+        <!-- =========================================
+             LEWA KARTA
+        ========================================== -->
 
         <section class="checkout-card">
 
+
           <div class="eyebrow">
+
             <span></span>
+
             ZAMÓWIENIE
+
           </div>
 
+
           <h1>
+
             Wybierz<br>
-            <em>usługę.</em>
+
+            <em>
+              usługę.
+            </em>
+
           </h1>
 
+
           <p>
+
             Wybierz pakiet montażowy poniżej.
             Po kliknięciu „Przejdź do płatności”
             przejdziesz do bezpiecznego Checkoutu Stripe,
-            gdzie zobaczysz dostępne dla Ciebie metody płatności.
+            gdzie zobaczysz dostępne metody płatności.
+
           </p>
 
 
-          <div class="selection" id="serviceList">
+          <div
+            class="selection"
+            id="serviceList"
+          >
+
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -276,15 +459,26 @@
               >
 
               <span>
-                <b>Krótki film</b>
-                <small>TikTok / Short / rolka</small>
+
+                <b>
+                  Krótki film
+                </b>
+
+                <small>
+                  TikTok / Short / rolka
+                </small>
+
               </span>
 
-              <strong>5 zł</strong>
+              <strong>
+                5 zł
+              </strong>
+
             </label>
 
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -292,15 +486,26 @@
               >
 
               <span>
-                <b>Dłuższy materiał</b>
-                <small>pojedynczy materiał</small>
+
+                <b>
+                  Dłuższy materiał
+                </b>
+
+                <small>
+                  pojedynczy materiał
+                </small>
+
               </span>
 
-              <strong>10 zł</strong>
+              <strong>
+                10 zł
+              </strong>
+
             </label>
 
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -308,15 +513,26 @@
               >
 
               <span>
-                <b>Bardzo długi materiał</b>
-                <small>ponad godzina surowego materiału</small>
+
+                <b>
+                  Bardzo długi materiał
+                </b>
+
+                <small>
+                  ponad godzina surowego materiału
+                </small>
+
               </span>
 
-              <strong>20 zł</strong>
+              <strong>
+                20 zł
+              </strong>
+
             </label>
 
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -324,15 +540,26 @@
               >
 
               <span>
-                <b>10 × krótki film</b>
-                <small>pakiet 10 shortów / rolek / TikToków</small>
+
+                <b>
+                  10 × krótki film
+                </b>
+
+                <small>
+                  pakiet 10 shortów / rolek / TikToków
+                </small>
+
               </span>
 
-              <strong>35 zł</strong>
+              <strong>
+                35 zł
+              </strong>
+
             </label>
 
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -340,15 +567,26 @@
               >
 
               <span>
-                <b>10 × dłuższy materiał</b>
-                <small>pakiet 10 materiałów</small>
+
+                <b>
+                  10 × dłuższy materiał
+                </b>
+
+                <small>
+                  pakiet 10 materiałów
+                </small>
+
               </span>
 
-              <strong>75 zł</strong>
+              <strong>
+                75 zł
+              </strong>
+
             </label>
 
 
             <label class="service-option">
+
               <input
                 type="radio"
                 name="service"
@@ -356,25 +594,43 @@
               >
 
               <span>
-                <b>10 × bardzo długi materiał</b>
-                <small>10 dużych realizacji</small>
+
+                <b>
+                  10 × bardzo długi materiał
+                </b>
+
+                <small>
+                  10 dużych realizacji
+                </small>
+
               </span>
 
-              <strong>139,99 zł</strong>
+              <strong>
+                139,99 zł
+              </strong>
+
             </label>
 
+
           </div>
+
 
         </section>
 
 
-        <!-- PRAWA STRONA -->
+        <!-- =========================================
+             PRAWA KARTA
+        ========================================== -->
 
         <section class="checkout-card">
 
+
           <div class="eyebrow">
+
             <span></span>
+
             DANE ZLECENIA
+
           </div>
 
 
@@ -386,8 +642,13 @@
               margin-bottom:8px
             "
           >
+
             Kilka szczegółów<br>
-            <em>i lecimy.</em>
+
+            <em>
+              i lecimy.
+            </em>
+
           </h2>
 
 
@@ -395,6 +656,7 @@
             class="checkout-form"
             id="checkoutForm"
           >
+
 
             <div
               class="account-box"
@@ -406,15 +668,21 @@
 
             <div class="field">
 
+
               <label for="notes">
-                OPIS ZLECENIA (OPCJONALNIE)
+
+                OPIS ZLECENIA
+                (OPCJONALNIE)
+
               </label>
+
 
               <textarea
                 id="notes"
                 name="notes"
                 placeholder="Np. dynamiczny montaż, napisy, muzyka, termin..."
               ></textarea>
+
 
             </div>
 
@@ -436,8 +704,13 @@
               class="btn btn-primary checkout-submit"
               type="submit"
             >
+
               Przejdź do płatności
-              <span>→</span>
+
+              <span>
+                →
+              </span>
+
             </button>
 
 
@@ -449,39 +722,65 @@
 
 
             <p class="checkout-note">
-              Płatność jest obsługiwana bezpośrednio przez Stripe.
-              Dostępne metody mogą zależeć od urządzenia,
-              kraju i konfiguracji płatności.
+
+              Płatność jest obsługiwana bezpośrednio
+              przez Stripe. Dostępne metody mogą zależeć
+              od urządzenia, kraju i konfiguracji płatności.
+
             </p>
+
 
           </form>
 
 
           <div class="secure-list">
 
-            <div>
-              ✓ <b>BLIK, karty i inne metody</b>
-              — dostępne opcje pokaże bezpieczny Checkout Stripe
-            </div>
 
             <div>
-              ✓ <b>Apple Pay / Google Pay</b>
-              — jeśli są dostępne na urządzeniu klienta
+
+              ✓ <b>BLIK</b>
+              — szybka płatność kodem BLIK
+
             </div>
 
+
             <div>
+
+              ✓ <b>Karty Visa / Mastercard</b>
+              — płatność kartą
+
+            </div>
+
+
+            <div>
+
               ✓ <b>Przelewy24</b>
               — jeśli jest aktywne na Twoim koncie Stripe
+
             </div>
 
+
             <div>
+
+              ✓ <b>Apple Pay / Google Pay</b>
+              — jeśli są dostępne na urządzeniu klienta
+
+            </div>
+
+
+            <div>
+
               ✓ <b>Bezpieczny Checkout</b>
               — płatność obsługiwana przez Stripe
+
             </div>
+
 
           </div>
 
+
         </section>
+
 
       </div>
 
@@ -492,36 +791,55 @@
 
   <script>
 
+
     const services = {
 
-      short:{
-        name:'Krótki film',
-        price:5
+      short: {
+        name:
+          'Krótki film',
+
+        price:
+          5
       },
 
-      long:{
-        name:'Dłuższy materiał',
-        price:10
+      long: {
+        name:
+          'Dłuższy materiał',
+
+        price:
+          10
       },
 
-      veryLong:{
-        name:'Bardzo długi materiał',
-        price:20
+      veryLong: {
+        name:
+          'Bardzo długi materiał',
+
+        price:
+          20
       },
 
-      short10:{
-        name:'10 × krótki film',
-        price:35
+      short10: {
+        name:
+          '10 × krótki film',
+
+        price:
+          35
       },
 
-      long10:{
-        name:'10 × dłuższy materiał',
-        price:75
+      long10: {
+        name:
+          '10 × dłuższy materiał',
+
+        price:
+          75
       },
 
-      veryLong10:{
-        name:'10 × bardzo długi materiał',
-        price:139.99
+      veryLong10: {
+        name:
+          '10 × bardzo długi materiał',
+
+        price:
+          139.99
       }
 
     };
@@ -534,7 +852,9 @@
 
 
     const requested =
-      params.get('service');
+      params.get(
+        'service'
+      );
 
 
     const accountBox =
@@ -544,10 +864,47 @@
 
 
     fetch('/api/me')
-      .then(r => r.json())
-      .then(d => {
+      .then(
+        response =>
+          response.json()
+      )
+      .then(
+        data => {
 
-        if(!d.user){
+          if (!data.user) {
+
+            location.href =
+              'login.html?next=' +
+              encodeURIComponent(
+                'payment.html' +
+                location.search
+              );
+
+            return;
+          }
+
+
+          accountBox.innerHTML =
+
+            '<b>' +
+
+            data.user.name.replace(
+              /[&<>\"']/g,
+              ''
+            ) +
+
+            '</b>' +
+
+            '<span>' +
+
+            data.user.email +
+
+            '</span>';
+
+        }
+      )
+      .catch(
+        () => {
 
           location.href =
             'login.html?next=' +
@@ -556,32 +913,8 @@
               location.search
             );
 
-          return;
         }
-
-
-        accountBox.innerHTML =
-          '<b>' +
-          d.user.name.replace(
-            /[&<>\"']/g,
-            ''
-          ) +
-          '</b>' +
-          '<span>' +
-          d.user.email +
-          '</span>';
-
-      })
-      .catch(() => {
-
-        location.href =
-          'login.html?next=' +
-          encodeURIComponent(
-            'payment.html' +
-            location.search
-          );
-
-      });
+      );
 
 
     const radios =
@@ -604,7 +937,7 @@
       );
 
 
-    function updateTotal(){
+    function updateTotal() {
 
       const selected =
         document.querySelector(
@@ -620,23 +953,33 @@
     }
 
 
-    if(
+    if (
       services[requested]
-    ){
+    ) {
 
-      document.querySelector(
-        `input[value="${requested}"]`
-      ).checked = true;
+      const requestedInput =
+        document.querySelector(
+          `input[value="${requested}"]`
+        );
+
+
+      if (requestedInput) {
+        requestedInput.checked =
+          true;
+      }
 
     }
 
 
     radios.forEach(
-      r =>
-        r.addEventListener(
+      radio => {
+
+        radio.addEventListener(
           'change',
           updateTotal
-        )
+        );
+
+      }
     );
 
 
@@ -644,12 +987,14 @@
 
 
     document
-      .getElementById('checkoutForm')
+      .getElementById(
+        'checkoutForm'
+      )
       .addEventListener(
         'submit',
-        async e => {
+        async event => {
 
-          e.preventDefault();
+          event.preventDefault();
 
 
           const selected =
@@ -658,25 +1003,26 @@
             );
 
 
-          if(!selected){
+          if (!selected) {
 
             status.textContent =
               'Najpierw wybierz usługę.';
 
             return;
-
           }
 
 
           const button =
-            e.currentTarget.querySelector(
+            event.currentTarget.querySelector(
               'button'
             );
 
 
-          button.disabled = true;
+          button.disabled =
+            true;
 
-          button.style.opacity = '.65';
+          button.style.opacity =
+            '.65';
 
 
           status.textContent =
@@ -696,15 +1042,16 @@
           };
 
 
-          try{
+          try {
 
             const response =
               await fetch(
                 '/api/create-checkout-session',
                 {
-                  method:'POST',
+                  method:
+                    'POST',
 
-                  headers:{
+                  headers: {
                     'Content-Type':
                       'application/json'
                   },
@@ -721,7 +1068,7 @@
               await response.json();
 
 
-            if(!response.ok){
+            if (!response.ok) {
 
               throw new Error(
                 data.error ||
@@ -735,10 +1082,10 @@
               data.url;
 
 
-          }catch(err){
+          } catch (error) {
 
             status.textContent =
-              err.message;
+              error.message;
 
             button.disabled =
               false;
@@ -753,5 +1100,7 @@
 
   </script>
 
+
 </body>
+
 </html>
