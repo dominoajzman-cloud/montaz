@@ -65,7 +65,9 @@ app.post(
   express.raw({ type: 'application/json' }),
   async (req, res) => {
     if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
-      return res.status(503).send('Webhook nie jest skonfigurowany.');
+      return res.status(503).send(
+        'Webhook nie jest skonfigurowany.'
+      );
     }
 
     let event;
@@ -77,14 +79,26 @@ app.post(
         process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
-      console.error('Webhook signature error:', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      console.error(
+        'Webhook signature error:',
+        err.message
+      );
+
+      return res
+        .status(400)
+        .send(`Webhook Error: ${err.message}`);
     }
 
     try {
+      // -----------------------------------------------
+      // PŁATNOŚĆ ZAKOŃCZONA
+      // -----------------------------------------------
+
       if (event.type === 'checkout.session.completed') {
         const checkout = event.data.object;
-        const orderId = Number(checkout.metadata?.order_id);
+
+        const orderId =
+          Number(checkout.metadata?.order_id);
 
         if (orderId) {
           await pool.query(
@@ -105,9 +119,15 @@ app.post(
         }
       }
 
+      // -----------------------------------------------
+      // SESJA WYGASŁA
+      // -----------------------------------------------
+
       if (event.type === 'checkout.session.expired') {
         const checkout = event.data.object;
-        const orderId = Number(checkout.metadata?.order_id);
+
+        const orderId =
+          Number(checkout.metadata?.order_id);
 
         if (orderId) {
           await pool.query(
@@ -120,12 +140,21 @@ app.post(
           );
         }
       }
+
     } catch (err) {
-      console.error('Webhook database error:', err);
-      return res.status(500).send('Webhook database error');
+      console.error(
+        'Webhook database error:',
+        err
+      );
+
+      return res
+        .status(500)
+        .send('Webhook database error');
     }
 
-    return res.json({ received: true });
+    return res.json({
+      received: true
+    });
   }
 );
 
@@ -150,13 +179,19 @@ app.use(
       'CHANGE_THIS_SESSION_SECRET',
 
     resave: false,
+
     saveUninitialized: false,
 
     cookie: {
       httpOnly: true,
+
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 24 * 7
+
+      secure:
+        process.env.NODE_ENV === 'production',
+
+      maxAge:
+        1000 * 60 * 60 * 24 * 7
     }
   })
 );
@@ -166,7 +201,9 @@ app.use(
 // =====================================================
 
 app.use(
-  express.static(path.join(__dirname))
+  express.static(
+    path.join(__dirname)
+  )
 );
 
 // =====================================================
@@ -176,7 +213,8 @@ app.use(
 function requireAuth(req, res, next) {
   if (!req.session.user) {
     return res.status(401).json({
-      error: 'Musisz być zalogowany.'
+      error:
+        'Musisz być zalogowany.'
     });
   }
 
@@ -196,204 +234,254 @@ function safeUser(user) {
 // REGISTER
 // =====================================================
 
-app.post('/api/register', async (req, res) => {
-  try {
-    const name = String(
-      req.body.name || ''
-    ).trim();
+app.post(
+  '/api/register',
+  async (req, res) => {
 
-    const email = String(
-      req.body.email || ''
-    )
-      .trim()
-      .toLowerCase();
+    try {
+      const name =
+        String(
+          req.body.name || ''
+        ).trim();
 
-    const password = String(
-      req.body.password || ''
-    );
+      const email =
+        String(
+          req.body.email || ''
+        )
+          .trim()
+          .toLowerCase();
 
-    if (name.length < 2) {
-      return res.status(400).json({
-        error: 'Podaj poprawne imię lub nazwę.'
+      const password =
+        String(
+          req.body.password || ''
+        );
+
+      if (name.length < 2) {
+        return res.status(400).json({
+          error:
+            'Podaj poprawne imię lub nazwę.'
+        });
+      }
+
+      if (
+        !/^\S+@\S+\.\S+$/.test(email)
+      ) {
+        return res.status(400).json({
+          error:
+            'Podaj poprawny adres e-mail.'
+        });
+      }
+
+      if (password.length < 8) {
+        return res.status(400).json({
+          error:
+            'Hasło musi mieć minimum 8 znaków.'
+        });
+      }
+
+      const existingResult =
+        await pool.query(
+          `SELECT id
+           FROM users
+           WHERE email = $1
+           LIMIT 1`,
+          [email]
+        );
+
+      if (
+        existingResult.rows.length
+      ) {
+        return res.status(409).json({
+          error:
+            'Konto z tym adresem e-mail już istnieje.'
+        });
+      }
+
+      const passwordHash =
+        await bcrypt.hash(
+          password,
+          12
+        );
+
+      const result =
+        await pool.query(
+          `INSERT INTO users
+           (name, email, password_hash, role)
+           VALUES ($1, $2, $3, 'client')
+           RETURNING id, name, email, role`,
+          [
+            name,
+            email,
+            passwordHash
+          ]
+        );
+
+      const user =
+        result.rows[0];
+
+      req.session.user =
+        user;
+
+      return res.status(201).json({
+        user:
+          safeUser(user),
+
+        redirect:
+          '/dashboard.html'
       });
-    }
 
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      return res.status(400).json({
-        error: 'Podaj poprawny adres e-mail.'
-      });
-    }
+    } catch (err) {
 
-    if (password.length < 8) {
-      return res.status(400).json({
-        error: 'Hasło musi mieć minimum 8 znaków.'
-      });
-    }
+      console.error(
+        'Register error:',
+        err
+      );
 
-    const existingResult = await pool.query(
-      `SELECT id
-       FROM users
-       WHERE email = $1
-       LIMIT 1`,
-      [email]
-    );
-
-    if (existingResult.rows.length) {
-      return res.status(409).json({
+      return res.status(500).json({
         error:
-          'Konto z tym adresem e-mail już istnieje.'
+          'Nie udało się utworzyć konta.'
       });
     }
-
-    const passwordHash =
-      await bcrypt.hash(password, 12);
-
-    const result = await pool.query(
-      `INSERT INTO users
-       (name, email, password_hash, role)
-       VALUES ($1, $2, $3, 'client')
-       RETURNING id, name, email, role`,
-      [
-        name,
-        email,
-        passwordHash
-      ]
-    );
-
-    const user = result.rows[0];
-
-    req.session.user = user;
-
-    return res.status(201).json({
-      user: safeUser(user),
-      redirect: '/dashboard.html'
-    });
-
-  } catch (err) {
-    console.error(
-      'Register error:',
-      err
-    );
-
-    return res.status(500).json({
-      error:
-        'Nie udało się utworzyć konta.'
-    });
   }
-});
+);
 
 // =====================================================
 // LOGIN
 // =====================================================
 
-app.post('/api/login', async (req, res) => {
-  try {
-    const email = String(
-      req.body.email || ''
-    )
-      .trim()
-      .toLowerCase();
+app.post(
+  '/api/login',
+  async (req, res) => {
 
-    const password = String(
-      req.body.password || ''
-    );
+    try {
+      const email =
+        String(
+          req.body.email || ''
+        )
+          .trim()
+          .toLowerCase();
 
-    const result = await pool.query(
-      `SELECT
-         id,
-         name,
-         email,
-         password_hash,
-         role
-       FROM users
-       WHERE email = $1
-       LIMIT 1`,
-      [email]
-    );
+      const password =
+        String(
+          req.body.password || ''
+        );
 
-    if (!result.rows.length) {
-      return res.status(401).json({
-        error:
-          'Nieprawidłowy e-mail lub hasło.'
+      const result =
+        await pool.query(
+          `SELECT
+             id,
+             name,
+             email,
+             password_hash,
+             role
+           FROM users
+           WHERE email = $1
+           LIMIT 1`,
+          [email]
+        );
+
+      if (
+        !result.rows.length
+      ) {
+        return res.status(401).json({
+          error:
+            'Nieprawidłowy e-mail lub hasło.'
+        });
+      }
+
+      const user =
+        result.rows[0];
+
+      const passwordCorrect =
+        await bcrypt.compare(
+          password,
+          user.password_hash
+        );
+
+      if (!passwordCorrect) {
+        return res.status(401).json({
+          error:
+            'Nieprawidłowy e-mail lub hasło.'
+        });
+      }
+
+      const sessionUser =
+        safeUser(user);
+
+      req.session.user =
+        sessionUser;
+
+      return res.json({
+        user:
+          sessionUser,
+
+        redirect:
+          '/dashboard.html'
       });
-    }
 
-    const user = result.rows[0];
+    } catch (err) {
 
-    const passwordCorrect =
-      await bcrypt.compare(
-        password,
-        user.password_hash
+      console.error(
+        'Login error:',
+        err
       );
 
-    if (!passwordCorrect) {
-      return res.status(401).json({
+      return res.status(500).json({
         error:
-          'Nieprawidłowy e-mail lub hasło.'
+          'Nie udało się zalogować.'
       });
     }
-
-    const sessionUser =
-      safeUser(user);
-
-    req.session.user =
-      sessionUser;
-
-    return res.json({
-      user: sessionUser,
-      redirect: '/dashboard.html'
-    });
-
-  } catch (err) {
-    console.error(
-      'Login error:',
-      err
-    );
-
-    return res.status(500).json({
-      error:
-        'Nie udało się zalogować.'
-    });
   }
-});
+);
 
 // =====================================================
 // LOGOUT
 // =====================================================
 
-app.post('/api/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      return res.status(500).json({
-        error:
-          'Nie udało się wylogować.'
-      });
-    }
+app.post(
+  '/api/logout',
+  (req, res) => {
 
-    res.clearCookie(
-      'dominik.sid'
+    req.session.destroy(
+      err => {
+
+        if (err) {
+          return res.status(500).json({
+            error:
+              'Nie udało się wylogować.'
+          });
+        }
+
+        res.clearCookie(
+          'dominik.sid'
+        );
+
+        return res.json({
+          ok: true
+        });
+      }
     );
-
-    return res.json({
-      ok: true
-    });
-  });
-});
+  }
+);
 
 // =====================================================
 // CURRENT USER
 // =====================================================
 
-app.get('/api/me', (req, res) => {
-  return res.json({
-    user:
-      req.session.user
-        ? safeUser(
-            req.session.user
-          )
-        : null
-  });
-});
+app.get(
+  '/api/me',
+  (req, res) => {
+
+    return res.json({
+      user:
+        req.session.user
+          ? safeUser(
+              req.session.user
+            )
+          : null
+    });
+  }
+);
 
 // =====================================================
 // ORDERS
@@ -403,7 +491,9 @@ app.get(
   '/api/orders',
   requireAuth,
   async (req, res) => {
+
     try {
+
       const result =
         await pool.query(
           `SELECT
@@ -431,6 +521,7 @@ app.get(
       });
 
     } catch (err) {
+
       console.error(
         'Orders error:',
         err
@@ -452,9 +543,11 @@ app.post(
   '/api/create-checkout-session',
   requireAuth,
   async (req, res) => {
+
     let orderId = null;
 
     try {
+
       if (!stripe) {
         return res.status(503).json({
           error:
@@ -479,6 +572,10 @@ app.post(
         });
       }
 
+      // -----------------------------------------------
+      // POBIERZ USŁUGĘ Z BAZY
+      // -----------------------------------------------
+
       const serviceResult =
         await pool.query(
           `SELECT
@@ -493,7 +590,9 @@ app.post(
           [serviceCode]
         );
 
-      if (!serviceResult.rows.length) {
+      if (
+        !serviceResult.rows.length
+      ) {
         return res.status(400).json({
           error:
             'Ta usługa jest obecnie niedostępna.'
@@ -502,6 +601,10 @@ app.post(
 
       const service =
         serviceResult.rows[0];
+
+      // -----------------------------------------------
+      // UTWÓRZ ZAMÓWIENIE
+      // -----------------------------------------------
 
       const orderResult =
         await pool.query(
@@ -520,20 +623,30 @@ app.post(
       orderId =
         orderResult.rows[0].id;
 
+      // -----------------------------------------------
+      // STRIPE CHECKOUT
+      // -----------------------------------------------
+      //
+      // NIE ustawiamy payment_method_types.
+      //
+      // Stripe użyje metod płatności skonfigurowanych
+      // w Stripe Dashboard.
+      //
+      // Dzięki temu Checkout może pokazać m.in.:
+      // - BLIK
+      // - karty Visa / Mastercard
+      // - Przelewy24
+      // - Apple Pay
+      // - Google Pay
+      //
+      // -----------------------------------------------
+
       const checkout =
         await stripe.checkout.sessions.create({
+
           mode: 'payment',
 
           locale: 'pl',
-
-          // =================================================
-          // AUTOMATYCZNE METODY PŁATNOŚCI STRIPE
-          // =================================================
-          // Stripe pokaże metody aktywne i dostępne
-          // dla danego klienta, urządzenia i waluty.
-          automatic_payment_methods: {
-            enabled: true
-          },
 
           customer_email:
             req.session.user.email,
@@ -546,6 +659,7 @@ app.post(
               quantity: 1,
 
               price_data: {
+
                 currency: 'pln',
 
                 unit_amount:
@@ -556,6 +670,7 @@ app.post(
                   ),
 
                 product_data: {
+
                   name:
                     service.name,
 
@@ -567,6 +682,7 @@ app.post(
           ],
 
           metadata: {
+
             order_id:
               String(orderId),
 
@@ -588,6 +704,10 @@ app.post(
             )}`
         });
 
+      // -----------------------------------------------
+      // ZAPISZ ID SESJI STRIPE
+      // -----------------------------------------------
+
       await pool.query(
         `UPDATE orders
          SET stripe_session_id = $1
@@ -604,12 +724,14 @@ app.post(
       });
 
     } catch (err) {
+
       console.error(
         'Checkout error:',
         err
       );
 
       if (orderId) {
+
         await pool.query(
           `UPDATE orders
            SET status = 'cancelled'
@@ -635,7 +757,9 @@ app.get(
   '/api/payment-status',
   requireAuth,
   async (req, res) => {
+
     try {
+
       const sessionId =
         String(
           req.query.session_id || ''
@@ -668,7 +792,9 @@ app.get(
           ]
         );
 
-      if (!result.rows.length) {
+      if (
+        !result.rows.length
+      ) {
         return res.status(404).json({
           error:
             'Nie znaleziono zamówienia.'
@@ -682,6 +808,7 @@ app.get(
         null;
 
       if (stripe) {
+
         const checkout =
           await stripe.checkout.sessions.retrieve(
             sessionId
@@ -695,6 +822,7 @@ app.get(
             'paid' &&
           order.status !== 'paid'
         ) {
+
           await pool.query(
             `UPDATE orders
              SET status = 'paid',
@@ -705,7 +833,9 @@ app.get(
             [
               checkout.payment_intent ||
                 null,
+
               order.id,
+
               req.session.user.id
             ]
           );
@@ -716,6 +846,7 @@ app.get(
       }
 
       return res.json({
+
         orderId:
           order.id,
 
@@ -725,13 +856,12 @@ app.get(
         stripePaymentStatus,
 
         paid:
-          order.status ===
-            'paid' ||
-          stripePaymentStatus ===
-            'paid'
+          order.status === 'paid' ||
+          stripePaymentStatus === 'paid'
       });
 
     } catch (err) {
+
       console.error(
         'Payment status error:',
         err
@@ -752,10 +882,12 @@ app.get(
 app.get(
   '/api/health',
   async (_req, res) => {
+
     let databaseOk =
       false;
 
     try {
+
       await pool.query(
         'SELECT 1'
       );
@@ -764,6 +896,7 @@ app.get(
         true;
 
     } catch (err) {
+
       console.error(
         'Database health error:',
         err.message
@@ -771,6 +904,7 @@ app.get(
     }
 
     return res.json({
+
       ok: true,
 
       database:
@@ -792,6 +926,7 @@ app.get(
 app.listen(
   PORT,
   async () => {
+
     console.log(
       '=============================================='
     );
@@ -829,6 +964,7 @@ app.listen(
     );
 
     try {
+
       await pool.query(
         'SELECT 1'
       );
@@ -838,6 +974,7 @@ app.listen(
       );
 
     } catch (err) {
+
       console.error(
         'PostgreSQL: BRAK POŁĄCZENIA:',
         err.message
