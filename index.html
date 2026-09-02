@@ -3,21 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Profesjonalny montaż wideo i grafika — Shortsy, Reelsy, TikToki, YouTube, miniaturki i banery.">
+  <meta name="description" content="Profesjonalny montaż wideo — Shortsy, Reelsy, TikToki, YouTube.">
   <meta name="theme-color" content="#0b0506">
   <title>Dominik Studio — Profesjonalny montaż wideo</title>
+
   <link rel="stylesheet" href="style.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       PORTFOLIO VIDEO SLIDER
+       ========================= */
+
+    .portfolio-video-slider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .portfolio-video-box {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #050505;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .portfolio-main-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #050505;
+    }
+
+    .portfolio-arrow {
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+
+      background: rgba(255,255,255,.035);
+      color: white;
+
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+    }
+
+    .portfolio-arrow:hover {
+      background: #ff3030;
+      border-color: #ff3030;
+      transform: scale(1.08);
+    }
+
+    .portfolio-arrow:active {
+      transform: scale(.96);
+    }
+
+    .portfolio-video-counter {
+      margin-top: 14px;
+
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+
+      color: #777;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .15em;
+    }
+
+    .portfolio-video-counter #portfolioCurrent {
+      color: #ff3030;
+    }
+
+    @media (max-width: 700px) {
+
+      .portfolio-video-slider {
+        gap: 8px;
+      }
+
+      .portfolio-video-box {
+        height: 390px;
+        border-radius: 14px;
+      }
+
+      .portfolio-arrow {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
   <div class="ambient ambient-one"></div>
   <div class="ambient ambient-two"></div>
 
   <header class="site-header" id="top">
+
     <a class="brand" href="#top" aria-label="Dominik Studio — strona główna">
       <span class="brand-mark">D</span>
+
       <span>
         <strong>DOMINIK</strong>
         <small>STUDIO / EDITING</small>
@@ -31,158 +141,1047 @@
       <a href="#kontakt">Kontakt</a>
     </nav>
 
-    <div style="display:flex;align-items:center;gap:10px"><a id="accountLink" class="header-cta" href="login.html">Zaloguj się</a><a class="header-cta" href="payment.html">Zamów projekt <span>↗</span></a></div>
-    <button class="menu-toggle" aria-label="Otwórz menu" aria-expanded="false">☰</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <a id="accountLink" class="header-cta" href="login.html">
+        Zaloguj się
+      </a>
+
+      <a class="header-cta" href="payment.html">
+        Zamów projekt <span>↗</span>
+      </a>
+    </div>
+
+    <button
+      class="menu-toggle"
+      aria-label="Otwórz menu"
+      aria-expanded="false">
+      ☰
+    </button>
+
   </header>
 
+
   <main>
+
+    <!-- =========================
+         HERO
+         ========================= -->
+
     <section class="hero section">
+
       <div class="hero-copy reveal">
-        <div class="eyebrow"><span></span> MONTAŻ WIDEO • SHORTY • YOUTUBE</div>
-        <h1>Twój materiał.<br><em>Lepszy poziom.</em></h1>
-        <p>Profesjonalny montaż wideo dla twórców, marek i osób, które chcą publikować lepsze materiały bez tracenia czasu na montaż.</p>
+
+        <div class="eyebrow">
+          <span></span>
+          MONTAŻ WIDEO • SHORTY • YOUTUBE
+        </div>
+
+        <h1>
+          Twój materiał.<br>
+          <em>Lepszy poziom.</em>
+        </h1>
+
+        <p>
+          Profesjonalny montaż wideo dla twórców, marek i osób,
+          które chcą publikować lepsze materiały bez tracenia czasu
+          na montaż.
+        </p>
+
         <div class="hero-actions">
-          <a class="btn btn-primary" href="payment.html">Zamów online <span>→</span></a>
-          <a class="btn btn-ghost" href="#portfolio">Zobacz portfolio</a>
+
+          <a class="btn btn-primary" href="payment.html">
+            Zamów online <span>→</span>
+          </a>
+
+          <a class="btn btn-ghost" href="#portfolio">
+            Zobacz portfolio
+          </a>
+
         </div>
+
         <div class="hero-trust">
-          <div><b>01</b><span>Indywidualny styl</span></div>
-          <div><b>02</b><span>Szybka komunikacja</span></div>
-          <div><b>03</b><span>Gotowe do publikacji</span></div>
+
+          <div>
+            <b>01</b>
+            <span>Indywidualny styl</span>
+          </div>
+
+          <div>
+            <b>02</b>
+            <span>Szybka komunikacja</span>
+          </div>
+
+          <div>
+            <b>03</b>
+            <span>Gotowe do publikacji</span>
+          </div>
+
         </div>
+
       </div>
+
 
       <div class="hero-visual reveal delay-1" aria-hidden="true">
+
         <div class="visual-card visual-main">
-          <div class="visual-top"><span class="rec-dot"></span> EDITING SESSION <span>00:42:18</span></div>
+
+          <div class="visual-top">
+            <span class="rec-dot"></span>
+            EDITING SESSION
+            <span>00:42:18</span>
+          </div>
+
           <div class="visual-screen">
+
             <div class="screen-grid"></div>
-            <div class="play-ring">▶</div>
-            <div class="screen-label">YOUR<br><strong>STORY</strong></div>
+
+            <div class="play-ring">
+              ▶
+            </div>
+
+            <div class="screen-label">
+              YOUR<br>
+              <strong>STORY</strong>
+            </div>
+
           </div>
+
           <div class="timeline">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
+
         </div>
-        <div class="floating-card card-price">od <strong>5 zł</strong><small>za usługę</small></div>
-        <div class="floating-card card-status"><span class="pulse"></span> NOWE ZLECENIA <strong>OPEN</strong></div>
+
+        <div class="floating-card card-price">
+          od <strong>5 zł</strong>
+          <small>za usługę</small>
+        </div>
+
+        <div class="floating-card card-status">
+          <span class="pulse"></span>
+          NOWE ZLECENIA
+          <strong>OPEN</strong>
+        </div>
+
       </div>
+
     </section>
+
+
+    <!-- =========================
+         STATS
+         ========================= -->
 
     <section class="stats">
-      <div><strong>VIDEO</strong><span>Shortsy / Reels / TikTok / YouTube</span></div>
-      <div><strong>EDITING</strong><span>Shorty / filmy / serie materiałów</span></div>
-      <div><strong>PROCESS</strong><span>Brief → realizacja → poprawki → gotowe</span></div>
+
+      <div>
+        <strong>VIDEO</strong>
+        <span>Shortsy / Reels / TikTok / YouTube</span>
+      </div>
+
+      <div>
+        <strong>EDITING</strong>
+        <span>Shorty / filmy / serie materiałów</span>
+      </div>
+
+      <div>
+        <strong>PROCESS</strong>
+        <span>Brief → realizacja → poprawki → gotowe</span>
+      </div>
+
     </section>
+
+
+    <!-- =========================
+         USŁUGI
+         ========================= -->
 
     <section class="section services" id="uslugi">
+
       <div class="section-heading reveal">
+
         <div>
-          <div class="eyebrow"><span></span> CO ROBIĘ</div>
-          <h2>Usługi bez zbędnego<br><em>kombinowania.</em></h2>
+
+          <div class="eyebrow">
+            <span></span>
+            CO ROBIĘ
+          </div>
+
+          <h2>
+            Usługi bez zbędnego<br>
+            <em>kombinowania.</em>
+          </h2>
+
         </div>
-        <p>Wybierasz usługę, przesyłasz materiały i opisujesz oczekiwany efekt. Resztą zajmuję się ja.</p>
+
+        <p>
+          Wybierasz usługę, przesyłasz materiały i opisujesz
+          oczekiwany efekt. Resztą zajmuję się ja.
+        </p>
+
       </div>
+
 
       <div class="service-grid">
-        <article class="service-card reveal"><span class="service-number">01</span><div class="service-icon">▶</div><h3>Krótki film</h3><p>TikTok, Short lub rolka. Dynamiczny montaż krótkiej formy gotowej do publikacji.</p><a href="payment.html?service=short">Zamów <span>→</span></a></article>
-        <article class="service-card featured reveal delay-1"><span class="service-number">02</span><div class="service-icon">▣</div><h3>Dłuższy materiał</h3><p>Pełniejszy montaż materiału z uporządkowaniem ujęć, rytmem i dopracowaniem całości.</p><a href="payment.html?service=long">Zamów <span>→</span></a><div class="featured-tag">POPULARNE</div></article>
-        <article class="service-card reveal delay-2"><span class="service-number">03</span><div class="service-icon">◉</div><h3>Bardzo długi materiał</h3><p>Duży projekt dla ponad godziny surowego materiału.</p><a href="payment.html?service=veryLong">Zamów <span>→</span></a></article>
-        <article class="service-card reveal"><span class="service-number">04</span><div class="service-icon">10×</div><h3>10 × krótki film</h3><p>Pakiet dziesięciu krótkich materiałów — TikToków, Shortsów lub rolek.</p><a href="payment.html?service=short10">Zamów <span>→</span></a></article>
-        <article class="service-card reveal delay-1"><span class="service-number">05</span><div class="service-icon">10×</div><h3>10 × dłuższy materiał</h3><p>Pakiet dziesięciu dłuższych filmów w korzystniejszej cenie.</p><a href="payment.html?service=long10">Zamów <span>→</span></a></article>
-        <article class="service-card reveal delay-2"><span class="service-number">06</span><div class="service-icon">10×</div><h3>10 × bardzo długi</h3><p>Pakiet dziesięciu dużych realizacji dla ponad godziny surowego materiału każda.</p><a href="payment.html?service=veryLong10">Zamów <span>→</span></a></article>
+
+        <article class="service-card reveal">
+
+          <span class="service-number">01</span>
+
+          <div class="service-icon">▶</div>
+
+          <h3>Krótki film</h3>
+
+          <p>
+            TikTok, Short lub rolka. Dynamiczny montaż krótkiej
+            formy gotowej do publikacji.
+          </p>
+
+          <a href="payment.html?service=short">
+            Zamów <span>→</span>
+          </a>
+
+        </article>
+
+
+        <article class="service-card featured reveal delay-1">
+
+          <span class="service-number">02</span>
+
+          <div class="service-icon">▣</div>
+
+          <h3>Dłuższy materiał</h3>
+
+          <p>
+            Pełniejszy montaż materiału z uporządkowaniem ujęć,
+            rytmem i dopracowaniem całości.
+          </p>
+
+          <a href="payment.html?service=long">
+            Zamów <span>→</span>
+          </a>
+
+          <div class="featured-tag">
+            POPULARNE
+          </div>
+
+        </article>
+
+
+        <article class="service-card reveal delay-2">
+
+          <span class="service-number">03</span>
+
+          <div class="service-icon">◉</div>
+
+          <h3>Bardzo długi materiał</h3>
+
+          <p>
+            Duży projekt dla ponad godziny surowego materiału.
+          </p>
+
+          <a href="payment.html?service=veryLong">
+            Zamów <span>→</span>
+          </a>
+
+        </article>
+
+
+        <article class="service-card reveal">
+
+          <span class="service-number">04</span>
+
+          <div class="service-icon">10×</div>
+
+          <h3>10 × krótki film</h3>
+
+          <p>
+            Pakiet dziesięciu krótkich materiałów —
+            TikToków, Shortsów lub rolek.
+          </p>
+
+          <a href="payment.html?service=short10">
+            Zamów <span>→</span>
+          </a>
+
+        </article>
+
+
+        <article class="service-card reveal delay-1">
+
+          <span class="service-number">05</span>
+
+          <div class="service-icon">10×</div>
+
+          <h3>10 × dłuższy materiał</h3>
+
+          <p>
+            Pakiet dziesięciu dłuższych filmów w korzystniejszej cenie.
+          </p>
+
+          <a href="payment.html?service=long10">
+            Zamów <span>→</span>
+          </a>
+
+        </article>
+
+
+        <article class="service-card reveal delay-2">
+
+          <span class="service-number">06</span>
+
+          <div class="service-icon">10×</div>
+
+          <h3>10 × bardzo długi</h3>
+
+          <p>
+            Pakiet dziesięciu dużych realizacji dla ponad godziny
+            surowego materiału każda.
+          </p>
+
+          <a href="payment.html?service=veryLong10">
+            Zamów <span>→</span>
+          </a>
+
+        </article>
+
       </div>
+
     </section>
+
+
+    <!-- =========================
+         O MNIE
+         ========================= -->
 
     <section class="section about" id="o-mnie">
+
       <div class="about-panel reveal">
-        <div class="about-mark">D<span>+</span></div>
-        <div>
-          <div class="eyebrow"><span></span> O MNIE</div>
-          <h2>Pomysł jest Twój.<br><em>Forma jest moja.</em></h2>
-          <p>Od kilku lat zajmuję się montażem wideo. Pracuję w Adobe Premiere Pro i After Effects. Tworzę zarówno krótkie, dynamiczne formy, jak i dłuższe filmy na YouTube.</p>
+
+        <div class="about-mark">
+          D<span>+</span>
         </div>
+
+        <div>
+
+          <div class="eyebrow">
+            <span></span>
+            O MNIE
+          </div>
+
+          <h2>
+            Pomysł jest Twój.<br>
+            <em>Forma jest moja.</em>
+          </h2>
+
+          <p>
+            Od kilku lat zajmuję się montażem wideo.
+            Pracuję w Adobe Premiere Pro i After Effects.
+            Tworzę zarówno krótkie, dynamiczne formy,
+            jak i dłuższe filmy na YouTube.
+          </p>
+
+        </div>
+
       </div>
+
+
       <div class="about-points reveal delay-1">
-        <div><strong>01</strong><b>Uniwersalność</b><span>Od dynamicznych shortów po profesjonalne realizacje.</span></div>
-        <div><strong>02</strong><b>Indywidualne podejście</b><span>Każdy projekt zaczynam od Twojej wizji.</span></div>
-        <div><strong>03</strong><b>Terminowość</b><span>Konkretny kontakt i jasny proces pracy.</span></div>
+
+        <div>
+          <strong>01</strong>
+          <b>Uniwersalność</b>
+          <span>
+            Od dynamicznych shortów po profesjonalne realizacje.
+          </span>
+        </div>
+
+        <div>
+          <strong>02</strong>
+          <b>Indywidualne podejście</b>
+          <span>
+            Każdy projekt zaczynam od Twojej wizji.
+          </span>
+        </div>
+
+        <div>
+          <strong>03</strong>
+          <b>Terminowość</b>
+          <span>
+            Konkretny kontakt i jasny proces pracy.
+          </span>
+        </div>
+
       </div>
+
     </section>
+
+
+    <!-- =========================
+         PORTFOLIO
+         ========================= -->
 
     <section class="section portfolio" id="portfolio">
+
       <div class="section-heading reveal">
+
         <div>
-          <div class="eyebrow"><span></span> PORTFOLIO</div>
-          <h2>Wybrane <em>montaże.</em></h2>
-        </div>
-        <p>Poniżej przykładowe materiały. Z czasem możesz rozbudować tę sekcję o kolejne realizacje.</p>
-      </div>
-      <div class="portfolio-grid">
-        <article class="work-card video-work reveal">
-          <div class="work-media">
-            <iframe src="https://www.youtube.com/embed/F_j1cglYbeI" title="Przykładowy montaż" loading="lazy" allowfullscreen></iframe>
+
+          <div class="eyebrow">
+            <span></span>
+            PORTFOLIO
           </div>
-          <div class="work-meta"><span>VIDEO</span><h3>Przykładowy montaż</h3></div>
-        </article>
-        <article class="work-card graphic-work reveal delay-1"><div class="graphic-placeholder"><div class="placeholder-grid"></div><div class="placeholder-copy"><small>EDITING</small><strong>MAKE IT<br><em>FLOW.</em></strong></div></div><div class="work-meta"><span>VIDEO</span><h3>Przykładowy montaż</h3></div></article>
+
+          <h2>
+            Wybrane <em>montaże.</em>
+          </h2>
+
+        </div>
+
+        <p>
+          Poniżej przykładowe materiały. Kliknij strzałki,
+          aby zobaczyć kolejne realizacje.
+        </p>
+
       </div>
+
+
+      <div class="portfolio-grid">
+
+
+        <!-- LEWA STRONA — FILMY -->
+
+        <article class="work-card video-work reveal">
+
+          <div class="work-media">
+
+            <div class="portfolio-video-slider">
+
+              <button
+                class="portfolio-arrow portfolio-arrow-left"
+                id="portfolioPrev"
+                type="button"
+                aria-label="Poprzedni film">
+                ←
+              </button>
+
+
+              <div class="portfolio-video-box">
+
+                <video
+                  id="portfolioVideo"
+                  class="portfolio-main-video"
+                  controls
+                  playsinline
+                  preload="metadata">
+                </video>
+
+              </div>
+
+
+              <button
+                class="portfolio-arrow portfolio-arrow-right"
+                id="portfolioNext"
+                type="button"
+                aria-label="Następny film">
+                →
+              </button>
+
+            </div>
+
+
+            <div class="portfolio-video-counter">
+
+              <span id="portfolioCurrent">
+                01
+              </span>
+
+              <span>/</span>
+
+              <span id="portfolioTotal">
+                04
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="work-meta">
+
+            <span>VIDEO</span>
+
+            <h3 id="portfolioTitle">
+              Przykładowy montaż
+            </h3>
+
+          </div>
+
+        </article>
+
+
+        <!-- PRAWA STRONA — DEKORACYJNY PANEL -->
+
+        <article class="work-card graphic-work reveal delay-1">
+
+          <div class="graphic-placeholder">
+
+            <div class="placeholder-grid"></div>
+
+            <div class="placeholder-copy">
+
+              <small>
+                EDITING
+              </small>
+
+              <strong>
+                MAKE IT<br>
+                <em>FLOW.</em>
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="work-meta">
+
+            <span>VIDEO</span>
+
+            <h3>
+              Przykładowy montaż
+            </h3>
+
+          </div>
+
+        </article>
+
+      </div>
+
     </section>
+
+
+    <!-- =========================
+         CENNIK
+         ========================= -->
 
     <section class="section pricing" id="cennik">
+
       <div class="section-heading reveal">
+
         <div>
-          <div class="eyebrow"><span></span> CENNIK</div>
-          <h2>Prosto i <em>czytelnie.</em></h2>
+
+          <div class="eyebrow">
+            <span></span>
+            CENNIK
+          </div>
+
+          <h2>
+            Prosto i <em>czytelnie.</em>
+          </h2>
+
         </div>
-        <p>Wybierz pojedynczy montaż albo jeden z pakietów 10 materiałów. Ceny są podane jasno z góry.</p>
+
+        <p>
+          Wybierz pojedynczy montaż albo jeden z pakietów
+          10 materiałów. Ceny są podane jasno z góry.
+        </p>
+
       </div>
+
+
       <div class="price-table reveal">
-        <a class="price-row" href="payment.html?service=short"><span><b>Krótki film</b><small>TikTok / Short / rolka</small></span><strong>5 zł</strong><i>→</i></a>
-        <a class="price-row" href="payment.html?service=long"><span><b>Dłuższy materiał</b><small>pojedynczy materiał</small></span><strong>10 zł</strong><i>→</i></a>
-        <a class="price-row" href="payment.html?service=veryLong"><span><b>Bardzo długi materiał</b><small>ponad godzina surowego materiału</small></span><strong>20 zł</strong><i>→</i></a>
-        <a class="price-row" href="payment.html?service=short10"><span><b>10 × krótki film</b><small>pakiet 10 TikToków / Shortsów / rolek</small></span><strong>35 zł</strong><i>→</i></a>
-        <a class="price-row" href="payment.html?service=long10"><span><b>10 × dłuższy materiał</b><small>pakiet 10 materiałów</small></span><strong>75 zł</strong><i>→</i></a>
-        <a class="price-row" href="payment.html?service=veryLong10"><span><b>10 × bardzo długi materiał</b><small>pakiet 10 dużych realizacji</small></span><strong>139,99 zł</strong><i>→</i></a>
+
+        <a class="price-row" href="payment.html?service=short">
+
+          <span>
+            <b>Krótki film</b>
+            <small>TikTok / Short / rolka</small>
+          </span>
+
+          <strong>5 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
+
+        <a class="price-row" href="payment.html?service=long">
+
+          <span>
+            <b>Dłuższy materiał</b>
+            <small>pojedynczy materiał</small>
+          </span>
+
+          <strong>10 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
+
+        <a class="price-row" href="payment.html?service=veryLong">
+
+          <span>
+            <b>Bardzo długi materiał</b>
+            <small>ponad godzina surowego materiału</small>
+          </span>
+
+          <strong>20 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
+
+        <a class="price-row" href="payment.html?service=short10">
+
+          <span>
+            <b>10 × krótki film</b>
+            <small>pakiet 10 TikToków / Shortsów / rolek</small>
+          </span>
+
+          <strong>35 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
+
+        <a class="price-row" href="payment.html?service=long10">
+
+          <span>
+            <b>10 × dłuższy materiał</b>
+            <small>pakiet 10 materiałów</small>
+          </span>
+
+          <strong>75 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
+
+        <a class="price-row" href="payment.html?service=veryLong10">
+
+          <span>
+            <b>10 × bardzo długi materiał</b>
+            <small>pakiet 10 dużych realizacji</small>
+          </span>
+
+          <strong>139,99 zł</strong>
+
+          <i>→</i>
+
+        </a>
+
       </div>
+
     </section>
+
+
+    <!-- =========================
+         ORDER
+         ========================= -->
 
     <section class="section order-banner">
+
       <div class="order-content reveal">
+
         <div>
-          <div class="eyebrow"><span></span> GOTOWY?</div>
-          <h2>Nie odkładaj publikacji<br><em>na później.</em></h2>
+
+          <div class="eyebrow">
+            <span></span>
+            GOTOWY?
+          </div>
+
+          <h2>
+            Nie odkładaj publikacji<br>
+            <em>na później.</em>
+          </h2>
+
         </div>
-        <a class="btn btn-primary" href="payment.html">Wybierz usługę <span>→</span></a>
+
+
+        <a class="btn btn-primary" href="payment.html">
+          Wybierz usługę <span>→</span>
+        </a>
+
       </div>
+
     </section>
+
   </main>
 
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
   <footer id="kontakt">
+
     <div class="footer-main">
+
+
       <div class="footer-brand">
-        <a class="brand" href="#top"><span class="brand-mark">D</span><span><strong>DOMINIK</strong><small>STUDIO / EDITING</small></span></a>
-        <p>Montaż wideo dla twórców, marek i osób, które chcą publikować profesjonalne materiały bez samodzielnego montowania.</p>
+
+        <a class="brand" href="#top">
+
+          <span class="brand-mark">
+            D
+          </span>
+
+          <span>
+            <strong>DOMINIK</strong>
+            <small>STUDIO / EDITING</small>
+          </span>
+
+        </a>
+
+
+        <p>
+          Montaż wideo dla twórców, marek i osób,
+          które chcą publikować profesjonalne materiały
+          bez samodzielnego montowania.
+        </p>
+
       </div>
+
+
       <div class="footer-col">
+
         <h4>KONTAKT</h4>
-        <a href="mailto:dominigkontakt@gmail.com">dominigkontakt@gmail.com</a>
-        <span>Discord: kutazman</span>
+
+        <a href="mailto:dominigkontakt@gmail.com">
+          dominigkontakt@gmail.com
+        </a>
+
+        <span>
+          Discord: kutazman
+        </span>
+
       </div>
+
+
       <div class="footer-col">
+
         <h4>SOCIALE</h4>
-        <a href="https://www.youtube.com/@MorcinLominig" target="_blank" rel="noopener">YouTube ↗</a>
-        <a href="https://www.instagram.com/dominik_z_plesnicy" target="_blank" rel="noopener">Instagram ↗</a>
-        <a href="https://www.tiktok.com/@mango_wlodzimierz" target="_blank" rel="noopener">TikTok ↗</a>
-        <a href="https://discord.gg/ZqSrgmdjKH" target="_blank" rel="noopener">Discord ↗</a>
+
+        <a
+          href="https://www.youtube.com/@MorcinLominig"
+          target="_blank"
+          rel="noopener">
+          YouTube ↗
+        </a>
+
+        <a
+          href="https://www.instagram.com/dominik_z_plesnicy"
+          target="_blank"
+          rel="noopener">
+          Instagram ↗
+        </a>
+
+        <a
+          href="https://www.tiktok.com/@mango_wlodzimierz"
+          target="_blank"
+          rel="noopener">
+          TikTok ↗
+        </a>
+
+        <a
+          href="https://discord.gg/ZqSrgmdjKH"
+          target="_blank"
+          rel="noopener">
+          Discord ↗
+        </a>
+
       </div>
+
     </div>
-    <div class="footer-bottom"><span>© 2026 Dominik Studio</span><span>VIDEO / DESIGN / CREATIVE</span></div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 Dominik Studio
+      </span>
+
+      <span>
+        VIDEO / DESIGN / CREATIVE
+      </span>
+
+    </div>
+
   </footer>
 
+
+  <!-- =========================
+       GŁÓWNY SCRIPT
+       ========================= -->
+
   <script src="script.js"></script>
-<script>
-fetch('/api/me').then(r=>r.json()).then(d=>{const a=document.getElementById('accountLink');if(!a)return;if(d.user){a.textContent='Moje konto';a.href='dashboard.html'}else{a.textContent='Zaloguj się';a.href='login.html'}}).catch(()=>{});
-</script>
+
+
+  <!-- =========================
+       PORTFOLIO SLIDER SCRIPT
+       ========================= -->
+
+  <script>
+
+    (() => {
+
+      const video =
+        document.getElementById("portfolioVideo");
+
+      const prevButton =
+        document.getElementById("portfolioPrev");
+
+      const nextButton =
+        document.getElementById("portfolioNext");
+
+      const currentNumber =
+        document.getElementById("portfolioCurrent");
+
+      const totalNumber =
+        document.getElementById("portfolioTotal");
+
+      const title =
+        document.getElementById("portfolioTitle");
+
+
+      if (
+        !video ||
+        !prevButton ||
+        !nextButton
+      ) {
+        return;
+      }
+
+
+      /*
+       * FILMY Z GŁÓWNEGO KATALOGU REPOZYTORIUM
+       */
+
+      const films = [
+
+        {
+          file: "a mi to wisi.mp4",
+          name: "A mi to wisi"
+        },
+
+        {
+          file: "dziurawe ręcę.mp4",
+          name: "Dziurawe ręcę"
+        },
+
+        {
+          file: "ratuj mnie!.mp4",
+          name: "Ratuj mnie!"
+        },
+
+        {
+          file: "suchar.mp4",
+          name: "Suchar"
+        }
+
+      ];
+
+
+      let currentIndex = 0;
+
+
+      totalNumber.textContent =
+        String(films.length).padStart(2, "0");
+
+
+      function loadFilm(index) {
+
+        if (index < 0) {
+          index = films.length - 1;
+        }
+
+        if (index >= films.length) {
+          index = 0;
+        }
+
+
+        currentIndex = index;
+
+
+        video.pause();
+
+
+        const filename =
+          encodeURIComponent(
+            films[currentIndex].file
+          );
+
+
+        video.src = filename;
+
+        video.load();
+
+
+        currentNumber.textContent =
+          String(currentIndex + 1).padStart(2, "0");
+
+
+        if (title) {
+
+          title.textContent =
+            films[currentIndex].name;
+
+        }
+
+      }
+
+
+      function nextFilm() {
+
+        const wasPlaying =
+          !video.paused;
+
+        loadFilm(currentIndex + 1);
+
+
+        if (wasPlaying) {
+
+          video.play().catch(() => {});
+
+        }
+
+      }
+
+
+      function previousFilm() {
+
+        const wasPlaying =
+          !video.paused;
+
+        loadFilm(currentIndex - 1);
+
+
+        if (wasPlaying) {
+
+          video.play().catch(() => {});
+
+        }
+
+      }
+
+
+      nextButton.addEventListener(
+        "click",
+        nextFilm
+      );
+
+
+      prevButton.addEventListener(
+        "click",
+        previousFilm
+      );
+
+
+      /*
+       * STRZAŁKI NA KLAWIATURZE
+       */
+
+      document.addEventListener(
+        "keydown",
+        (event) => {
+
+          /*
+           * Nie zmieniaj filmu,
+           * jeśli użytkownik pisze w polu tekstowym.
+           */
+
+          const tag =
+            document.activeElement
+              ? document.activeElement.tagName
+              : "";
+
+
+          if (
+            tag === "INPUT" ||
+            tag === "TEXTAREA"
+          ) {
+            return;
+          }
+
+
+          if (event.key === "ArrowRight") {
+
+            nextFilm();
+
+          }
+
+
+          if (event.key === "ArrowLeft") {
+
+            previousFilm();
+
+          }
+
+        }
+      );
+
+
+      /*
+       * URUCHOMIENIE PIERWSZEGO FILMU
+       */
+
+      loadFilm(0);
+
+    })();
+
+  </script>
+
+
+  <!-- =========================
+       LOGOWANIE / KONTO
+       ========================= -->
+
+  <script>
+
+    fetch("/api/me")
+      .then(response => response.json())
+      .then(data => {
+
+        const accountLink =
+          document.getElementById("accountLink");
+
+        if (!accountLink) {
+          return;
+        }
+
+
+        if (data.user) {
+
+          accountLink.textContent =
+            "Moje konto";
+
+          accountLink.href =
+            "dashboard.html";
+
+        } else {
+
+          accountLink.textContent =
+            "Zaloguj się";
+
+          accountLink.href =
+            "login.html";
+
+        }
+
+      })
+      .catch(() => {});
+
+  </script>
+
 </body>
 </html>
