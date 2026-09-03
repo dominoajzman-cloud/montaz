@@ -7,74 +7,77 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    content="width=device-width, initial-scale=1.0">
 
   <meta
     name="description"
-    content="Zamów usługę montażu wideo w Dominik Studio."
-  >
+    content="Zamów usługę montażu wideo w Dominik Studio.">
 
   <meta
     name="theme-color"
-    content="#0b0506"
-  >
+    content="#0b0506">
 
   <title>
     Zamów usługę — Dominik Studio
   </title>
 
+
   <link
     rel="stylesheet"
-    href="style.css"
-  >
+    href="style.css">
+
 
   <link
     rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+    href="https://fonts.googleapis.com">
 
   <link
     rel="preconnect"
     href="https://fonts.gstatic.com"
-    crossorigin
-  >
+    crossorigin>
+
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
+
 
   <style>
 
-    .checkout-page{
-      min-height:100vh;
-      padding:130px 20px 80px
+    .checkout-page {
+      min-height: 100vh;
+      padding: 130px 20px 80px;
     }
 
-    .checkout-shell{
-      width:min(960px,100%);
-      margin:auto
+
+    .checkout-shell {
+      width: min(1000px, 100%);
+      margin: auto;
     }
 
-    .back-link{
-      display:inline-block;
-      color:#817476;
-      font-size:11px;
-      margin-bottom:30px
+
+    .back-link {
+      display: inline-block;
+      color: #817476;
+      font-size: 11px;
+      margin-bottom: 30px;
+      transition: color .2s ease;
     }
 
-    .back-link:hover{
-      color:#fff
+
+    .back-link:hover {
+      color: #fff;
     }
 
-    .checkout-grid{
-      display:grid;
-      grid-template-columns:1fr 1.1fr;
-      gap:16px
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 16px;
     }
 
-    .checkout-card{
+
+    .checkout-card {
       background:
         linear-gradient(
           145deg,
@@ -82,267 +85,713 @@
           #0b0708
         );
 
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:35px
+      border: 1px solid var(--line);
+
+      border-radius: 18px;
+
+      padding: 35px;
     }
 
-    .checkout-card h1{
-      font-size:
-        clamp(
-          2.5rem,
-          5vw,
-          4.4rem
-        );
 
-      margin-bottom:18px
+    .checkout-card h1 {
+      font-size: clamp(
+        2.5rem,
+        5vw,
+        4.4rem
+      );
+
+      margin-bottom: 18px;
     }
 
-    .checkout-card p{
-      color:#8d7e80;
-      font-size:12px;
-      line-height:1.8
+
+    .checkout-card p {
+      color: #8d7e80;
+      font-size: 12px;
+      line-height: 1.8;
     }
 
-    .selection{
-      margin-top:30px;
-      display:grid;
-      gap:8px
+
+    /* ==========================
+       WYBÓR USŁUGI
+       ========================== */
+
+
+    .selection {
+      margin-top: 30px;
+      display: grid;
+      gap: 8px;
     }
 
-    .service-option{
-      position:relative;
 
-      display:grid;
+    .service-option {
+      position: relative;
+
+      display: grid;
 
       grid-template-columns:
         1fr auto;
 
-      gap:15px;
+      gap: 15px;
 
-      padding:16px;
+      padding: 16px;
 
-      border:1px solid var(--line);
+      border:
+        1px solid
+        var(--line);
 
-      border-radius:11px;
+      border-radius: 11px;
 
       background:
-        rgba(
-          255,
-          255,
-          255,
-          .02
-        );
+        rgba(255,255,255,.02);
 
-      cursor:pointer
+      cursor: pointer;
+
+      transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease;
     }
 
-    .service-option input{
-      position:absolute;
-      opacity:0
+
+    .service-option:hover {
+      border-color:
+        rgba(255,43,43,.35);
+
+      transform:
+        translateY(-1px);
     }
+
+
+    .service-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
 
     .service-option:has(
       input:checked
-    ){
+    ) {
+
       border-color:
-        rgba(
-          255,
-          43,
-          43,
-          .65
-        );
+        rgba(255,43,43,.65);
 
       background:
-        rgba(
-          255,
-          43,
-          43,
-          .08
-        )
+        rgba(255,43,43,.08);
+
     }
 
-    .service-option b{
+
+    .service-option b {
       font:
-        600 12px Poppins
+        600 12px Poppins;
     }
 
-    .service-option small{
-      display:block;
-      color:#716567;
-      font-size:9px;
-      margin-top:4px
+
+    .service-option small {
+      display: block;
+
+      color: #716567;
+
+      font-size: 9px;
+
+      margin-top: 4px;
     }
 
-    .service-option strong{
+
+    .service-option strong {
       font:
-        700 13px Poppins
+        700 13px Poppins;
     }
 
-    .order-summary{
-      margin-top:22px;
 
-      padding-top:22px;
+
+    /* ==========================
+       INFORMACJA O TERMINIE
+       ========================== */
+
+
+    .delivery-info {
+
+      margin-top: 24px;
+
+      padding: 18px;
+
+      border-radius: 13px;
+
+      border:
+        1px solid
+        rgba(255,43,43,.25);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,43,43,.10),
+          rgba(255,43,43,.025)
+        );
+
+    }
+
+
+    .delivery-info-top {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .delivery-icon {
+
+      width: 28px;
+      height: 28px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(255,43,43,.14);
+
+      color:
+        #ff3030;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+    }
+
+
+    .delivery-info strong {
+
+      color: #fff;
+
+      font:
+        700 11px Poppins;
+
+      letter-spacing:
+        .08em;
+
+    }
+
+
+    .delivery-info p {
+
+      margin: 0;
+
+      color: #a49395;
+
+      font-size: 10px;
+
+      line-height: 1.75;
+
+    }
+
+
+    .delivery-info p b {
+
+      color: #fff;
+
+    }
+
+
+
+    /* ==========================
+       FORMULARZ
+       ========================== */
+
+
+    .order-summary {
+
+      margin-top: 22px;
+
+      padding-top: 22px;
 
       border-top:
-        1px solid var(--line);
+        1px solid
+        var(--line);
 
-      display:flex;
+      display: flex;
 
       justify-content:
         space-between;
 
-      align-items:end
+      align-items:
+        end;
     }
 
-    .order-summary span{
-      color:#786b6d;
-      font-size:10px
+
+    .order-summary span {
+
+      color: #786b6d;
+
+      font-size: 10px;
+
     }
 
-    .order-summary strong{
+
+    .order-summary strong {
+
       font:
         700 28px Poppins;
 
-      color:var(--red)
+      color:
+        var(--red);
+
     }
 
-    .checkout-form{
-      display:grid;
-      gap:16px;
-      margin-top:24px
+
+    .checkout-form {
+
+      display: grid;
+
+      gap: 16px;
+
+      margin-top: 24px;
+
     }
 
-    .field label{
-      display:block;
 
-      color:#9a8b8d;
+    .field label {
 
-      font-size:9px;
+      display: block;
 
-      font-weight:700;
+      color: #9a8b8d;
 
-      letter-spacing:.1em;
+      font-size: 9px;
 
-      margin-bottom:7px
+      font-weight: 700;
+
+      letter-spacing: .1em;
+
+      margin-bottom: 7px;
+
     }
+
 
     .field input,
-    .field textarea{
+    .field textarea {
 
-      width:100%;
+      width: 100%;
 
-      padding:13px 14px;
+      padding:
+        13px 14px;
 
-      border-radius:9px;
+      border-radius: 9px;
 
       border:
-        1px solid var(--line);
+        1px solid
+        var(--line);
 
-      background:#090607;
+      background:
+        #090607;
 
-      color:#fff;
+      color: #fff;
 
-      outline:none;
+      outline: none;
 
-      font:inherit;
+      font: inherit;
 
-      font-size:12px
+      font-size: 12px;
+
+      box-sizing: border-box;
+
     }
 
-    .field textarea{
-      min-height:90px;
-      resize:vertical
+
+    .field textarea {
+
+      min-height: 90px;
+
+      resize: vertical;
+
     }
+
 
     .field input:focus,
-    .field textarea:focus{
+    .field textarea:focus {
 
       border-color:
-        rgba(
-          255,
-          43,
-          43,
-          .65
-        );
+        rgba(255,43,43,.65);
 
       box-shadow:
         0 0 0 3px
-        rgba(
-          255,
-          43,
-          43,
-          .08
-        )
+        rgba(255,43,43,.08);
+
     }
 
-    .checkout-submit{
 
-      width:100%;
+    .checkout-submit {
 
-      border:0;
+      width: 100%;
 
-      cursor:pointer;
+      border: 0;
 
-      justify-content:center;
+      cursor: pointer;
 
-      margin-top:5px
+      justify-content: center;
+
+      margin-top: 5px;
+
     }
 
-    .checkout-submit:disabled{
-      cursor:not-allowed
+
+    .checkout-note {
+
+      font-size: 9px !important;
+
+      color: #625759 !important;
+
+      text-align: center;
+
     }
 
-    .checkout-note{
 
-      font-size:9px!important;
+    .status {
 
-      color:#625759!important;
+      min-height: 18px;
 
-      text-align:center
+      color: #ff8185;
+
+      font-size: 10px;
+
+      text-align: center;
+
     }
 
-    .status{
 
-      min-height:18px;
 
-      color:#ff8185;
+    /* ==========================
+       KONTAKT
+       ========================== */
 
-      font-size:10px;
 
-      text-align:center
+    .contact-card {
+
+      margin-top: 24px;
+
+      padding: 20px;
+
+      border-radius: 14px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      background:
+        rgba(255,255,255,.025);
+
     }
 
-    .secure-list{
 
-      margin-top:28px;
+    .contact-card .eyebrow {
 
-      display:grid;
+      margin-bottom: 12px;
 
-      gap:10px
     }
 
-    .secure-list div{
 
-      font-size:10px;
+    .contact-title {
 
-      color:#827477;
+      font:
+        700 20px Poppins;
 
-      line-height:1.5
+      color: #fff;
+
+      margin-bottom: 7px;
+
     }
 
-    .secure-list b{
-      color:#fff
+
+    .contact-description {
+
+      color: #807274;
+
+      font-size: 10px;
+
+      line-height: 1.7;
+
+      margin-bottom: 16px;
+
     }
 
-    @media(max-width:800px){
 
-      .checkout-grid{
-        grid-template-columns:1fr
+    .contact-links {
+
+      display: grid;
+
+      gap: 8px;
+
+    }
+
+
+    .contact-link {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 12px;
+
+      padding: 11px 13px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      border-radius: 9px;
+
+      background:
+        rgba(255,255,255,.02);
+
+      color: #fff;
+
+      text-decoration: none;
+
+      transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+
+    }
+
+
+    .contact-link:hover {
+
+      border-color:
+        rgba(255,43,43,.45);
+
+      background:
+        rgba(255,43,43,.06);
+
+      transform:
+        translateX(2px);
+
+    }
+
+
+    .contact-link-left {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      min-width: 0;
+
+    }
+
+
+    .contact-link-icon {
+
+      width: 30px;
+      height: 30px;
+
+      flex:
+        0 0 30px;
+
+      border-radius: 8px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(255,43,43,.10);
+
+      color:
+        #ff3030;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+    }
+
+
+    .contact-link-text {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 2px;
+
+      min-width: 0;
+
+    }
+
+
+    .contact-link-text b {
+
+      font:
+        600 10px Poppins;
+
+      color: #fff;
+
+    }
+
+
+    .contact-link-text span {
+
+      color: #786b6d;
+
+      font-size: 9px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+    }
+
+
+    .contact-link-arrow {
+
+      color:
+        #6e6264;
+
+      font-size: 14px;
+
+    }
+
+
+
+    /* ==========================
+       DODATKOWA INFORMACJA
+       ========================== */
+
+
+    .after-purchase-note {
+
+      margin-top: 12px;
+
+      padding: 12px 14px;
+
+      border-radius: 9px;
+
+      background:
+        rgba(255,255,255,.018);
+
+      color: #706365;
+
+      font-size: 9px;
+
+      line-height: 1.65;
+
+      text-align: center;
+
+    }
+
+
+    .after-purchase-note b {
+
+      color: #aaa;
+
+    }
+
+
+
+    /* ==========================
+       BEZPIECZEŃSTWO
+       ========================== */
+
+
+    .secure-list {
+
+      margin-top: 28px;
+
+      display: grid;
+
+      gap: 10px;
+
+    }
+
+
+    .secure-list div {
+
+      font-size: 10px;
+
+      color: #827477;
+
+    }
+
+
+    .secure-list b {
+
+      color: #fff;
+
+    }
+
+
+
+    /* ==========================
+       MOBILE
+       ========================== */
+
+
+    @media(max-width:800px) {
+
+      .checkout-grid {
+
+        grid-template-columns: 1fr;
+
       }
 
-      .checkout-page{
-        padding-top:110px
+
+      .checkout-page {
+
+        padding-top: 110px;
+
+      }
+
+
+      .checkout-card {
+
+        padding: 25px;
+
+      }
+
+    }
+
+
+    @media(max-width:500px) {
+
+      .checkout-page {
+
+        padding-left: 12px;
+        padding-right: 12px;
+
+      }
+
+
+      .checkout-card {
+
+        padding: 20px;
+
+        border-radius: 15px;
+
+      }
+
+
+      .contact-link-text span {
+
+        max-width: 190px;
+
       }
 
     }
@@ -355,12 +804,15 @@
 <body>
 
 
+  <!-- ==============================
+       HEADER
+       ============================== -->
+
   <header class="site-header">
 
     <a
       class="brand"
-      href="index.html"
-    >
+      href="index.html">
 
       <span class="brand-mark">
         D
@@ -383,33 +835,42 @@
 
     <a
       class="header-cta"
-      href="index.html"
-    >
+      href="index.html">
+
       ← Wróć na stronę
+
     </a>
 
   </header>
 
 
+
+  <!-- ==============================
+       MAIN
+       ============================== -->
+
   <main class="checkout-page">
+
 
     <div class="checkout-shell">
 
 
       <a
         class="back-link"
-        href="index.html"
-      >
+        href="index.html">
+
         ← Powrót do strony głównej
+
       </a>
+
 
 
       <div class="checkout-grid">
 
 
-        <!-- =========================================
+        <!-- ==========================
              LEWA KARTA
-        ========================================== -->
+             ========================== -->
 
         <section class="checkout-card">
 
@@ -437,26 +898,29 @@
           <p>
 
             Wybierz pakiet montażowy poniżej.
-            Po kliknięciu „Przejdź do płatności”
-            przejdziesz do bezpiecznego Checkoutu Stripe,
-            gdzie zobaczysz dostępne metody płatności.
+            Po kliknięciu „Zapłać” przejdziesz
+            do bezpiecznego Checkoutu Stripe.
 
           </p>
 
 
+
+          <!-- ========================
+               USŁUGI
+               ======================== -->
+
           <div
             class="selection"
-            id="serviceList"
-          >
+            id="serviceList">
 
 
-            <label class="service-option">
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="short"
-              >
+                value="short">
 
               <span>
 
@@ -477,13 +941,14 @@
             </label>
 
 
-            <label class="service-option">
+
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="long"
-              >
+                value="long">
 
               <span>
 
@@ -504,13 +969,14 @@
             </label>
 
 
-            <label class="service-option">
+
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="veryLong"
-              >
+                value="veryLong">
 
               <span>
 
@@ -531,13 +997,14 @@
             </label>
 
 
-            <label class="service-option">
+
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="short10"
-              >
+                value="short10">
 
               <span>
 
@@ -558,13 +1025,14 @@
             </label>
 
 
-            <label class="service-option">
+
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="long10"
-              >
+                value="long10">
 
               <span>
 
@@ -585,13 +1053,14 @@
             </label>
 
 
-            <label class="service-option">
+
+            <label
+              class="service-option">
 
               <input
                 type="radio"
                 name="service"
-                value="veryLong10"
-              >
+                value="veryLong10">
 
               <span>
 
@@ -600,7 +1069,7 @@
                 </b>
 
                 <small>
-                  10 dużych realizacji
+                  pakiet 10 dużych realizacji
                 </small>
 
               </span>
@@ -615,12 +1084,54 @@
           </div>
 
 
+
+          <!-- ========================
+               TERMIN REALIZACJI
+               ======================== -->
+
+          <div class="delivery-info">
+
+
+            <div class="delivery-info-top">
+
+              <div class="delivery-icon">
+                !
+              </div>
+
+              <strong>
+                WAŻNE — TERMIN REALIZACJI
+              </strong>
+
+            </div>
+
+
+            <p>
+
+              Termin realizacji
+              <b>ustalamy indywidualnie po zakupie</b>,
+              w zależności od wybranej usługi,
+              materiałów i zakresu pracy.
+
+              <br><br>
+
+              W przypadku
+              <b>dłuższych materiałów realizacja
+              z dnia na dzień nie jest możliwa</b>.
+              Po zakupie skontaktuj się ze mną,
+              aby ustalić termin i szczegóły projektu.
+
+            </p>
+
+          </div>
+
+
         </section>
 
 
-        <!-- =========================================
+
+        <!-- ==========================
              PRAWA KARTA
-        ========================================== -->
+             ========================== -->
 
         <section class="checkout-card">
 
@@ -639,9 +1150,8 @@
               font-size:32px;
               line-height:1.05;
               font-family:Poppins;
-              margin-bottom:8px
-            "
-          >
+              margin-bottom:8px;
+            ">
 
             Kilka szczegółów<br>
 
@@ -652,27 +1162,31 @@
           </h2>
 
 
+
+          <!-- ========================
+               FORMULARZ
+               ======================== -->
+
           <form
             class="checkout-form"
-            id="checkoutForm"
-          >
+            id="checkoutForm">
 
 
             <div
               class="account-box"
-              id="accountBox"
-            >
+              id="accountBox">
+
               Sprawdzam konto...
+
             </div>
+
 
 
             <div class="field">
 
-
               <label for="notes">
 
-                OPIS ZLECENIA
-                (OPCJONALNIE)
+                OPIS ZLECENIA (OPCJONALNIE)
 
               </label>
 
@@ -680,11 +1194,10 @@
               <textarea
                 id="notes"
                 name="notes"
-                placeholder="Np. dynamiczny montaż, napisy, muzyka, termin..."
-              ></textarea>
-
+                placeholder="Np. dynamiczny montaż, napisy, muzyka, termin..."></textarea>
 
             </div>
+
 
 
             <div class="order-summary">
@@ -700,12 +1213,12 @@
             </div>
 
 
+
             <button
               class="btn btn-primary checkout-submit"
-              type="submit"
-            >
+              type="submit">
 
-              Przejdź do płatności
+              Zapłać
 
               <span>
                 →
@@ -717,15 +1230,16 @@
             <div
               class="status"
               id="status"
-              aria-live="polite"
-            ></div>
+              aria-live="polite">
+            </div>
 
 
             <p class="checkout-note">
 
-              Płatność jest obsługiwana bezpośrednio
-              przez Stripe. Dostępne metody mogą zależeć
-              od urządzenia, kraju i konfiguracji płatności.
+              Płatność jest obsługiwana
+              bezpośrednio przez Stripe.
+              Dane płatnicze nie są przechowywane
+              na tej stronie.
 
             </p>
 
@@ -733,45 +1247,219 @@
           </form>
 
 
+
+          <!-- ========================
+               KONTAKT
+               ======================== -->
+
+          <div class="contact-card">
+
+
+            <div class="eyebrow">
+
+              <span></span>
+
+              KONTAKT PO ZAKUPIE
+
+            </div>
+
+
+            <div class="contact-title">
+
+              Ustalimy szczegóły razem.
+
+            </div>
+
+
+            <div class="contact-description">
+
+              Po opłaceniu zamówienia
+              skontaktuj się ze mną,
+              aby ustalić termin realizacji
+              i przekazać dodatkowe informacje
+              dotyczące projektu.
+
+            </div>
+
+
+
+            <div class="contact-links">
+
+
+              <!-- DISCORD -->
+
+              <a
+                class="contact-link"
+                href="https://discord.com/app"
+                target="_blank"
+                rel="noopener"
+                id="discordContact">
+
+                <span class="contact-link-left">
+
+                  <span class="contact-link-icon">
+                    DS
+                  </span>
+
+                  <span class="contact-link-text">
+
+                    <b>
+                      DISCORD
+                    </b>
+
+                    <span>
+                      kutazman
+                    </span>
+
+                  </span>
+
+                </span>
+
+
+                <span class="contact-link-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+
+              <!-- E-MAIL -->
+
+              <a
+                class="contact-link"
+                href="mailto:dominoajzman@gmail.com?subject=Kontakt%20w%20sprawie%20zam%C3%B3wienia"
+                id="emailContact">
+
+                <span class="contact-link-left">
+
+                  <span class="contact-link-icon">
+                    @
+                  </span>
+
+                  <span class="contact-link-text">
+
+                    <b>
+                      E-MAIL
+                    </b>
+
+                    <span>
+                      dominoajzman@gmail.com
+                    </span>
+
+                  </span>
+
+                </span>
+
+
+                <span class="contact-link-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+
+              <!-- INSTAGRAM -->
+
+              <a
+                class="contact-link"
+                href="https://www.instagram.com/dominik_z_ple%C5%9Bnicy/"
+                target="_blank"
+                rel="noopener">
+
+                <span class="contact-link-left">
+
+                  <span class="contact-link-icon">
+                    IG
+                  </span>
+
+                  <span class="contact-link-text">
+
+                    <b>
+                      INSTAGRAM
+                    </b>
+
+                    <span>
+                      @dominik_z_pleśnicy
+                    </span>
+
+                  </span>
+
+                </span>
+
+
+                <span class="contact-link-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+            </div>
+
+
+
+            <div class="after-purchase-note">
+
+              <b>
+                Po zakupie:
+              </b>
+
+              napisz do mnie przez wybrany
+              kanał kontaktu i podaj,
+              czego dotyczy zamówienie.
+              Wspólnie ustalimy termin realizacji.
+
+            </div>
+
+
+          </div>
+
+
+
+          <!-- ========================
+               BEZPIECZEŃSTWO
+               ======================== -->
+
           <div class="secure-list">
 
 
             <div>
 
-              ✓ <b>BLIK</b>
-              — szybka płatność kodem BLIK
+              ✓
 
-            </div>
+              <b>
+                Bezpieczny Checkout
+              </b>
 
-
-            <div>
-
-              ✓ <b>Karty Visa / Mastercard</b>
-              — płatność kartą
-
-            </div>
-
-
-            <div>
-
-              ✓ <b>Przelewy24</b>
-              — jeśli jest aktywne na Twoim koncie Stripe
-
-            </div>
-
-
-            <div>
-
-              ✓ <b>Apple Pay / Google Pay</b>
-              — jeśli są dostępne na urządzeniu klienta
-
-            </div>
-
-
-            <div>
-
-              ✓ <b>Bezpieczny Checkout</b>
               — płatność obsługiwana przez Stripe
+
+            </div>
+
+
+            <div>
+
+              ✓
+
+              <b>
+                Termin ustalany indywidualnie
+              </b>
+
+              — po zakupie
+
+            </div>
+
+
+            <div>
+
+              ✓
+
+              <b>
+                Kontakt
+              </b>
+
+              — Discord, e-mail lub Instagram
 
             </div>
 
@@ -789,60 +1477,48 @@
   </main>
 
 
+
+  <!-- ==============================
+       SCRIPT
+       ============================== -->
+
   <script>
 
 
     const services = {
 
       short: {
-        name:
-          'Krótki film',
-
-        price:
-          5
+        name: 'Krótki film',
+        price: 5
       },
 
       long: {
-        name:
-          'Dłuższy materiał',
-
-        price:
-          10
+        name: 'Dłuższy materiał',
+        price: 10
       },
 
       veryLong: {
-        name:
-          'Bardzo długi materiał',
-
-        price:
-          20
+        name: 'Bardzo długi materiał',
+        price: 20
       },
 
       short10: {
-        name:
-          '10 × krótki film',
-
-        price:
-          35
+        name: '10 × krótki film',
+        price: 35
       },
 
       long10: {
-        name:
-          '10 × dłuższy materiał',
-
-        price:
-          75
+        name: '10 × dłuższy materiał',
+        price: 75
       },
 
       veryLong10: {
-        name:
-          '10 × bardzo długi materiał',
-
-        price:
-          139.99
+        name: '10 × bardzo długi materiał',
+        price: 139.99
       }
 
     };
+
 
 
     const params =
@@ -852,9 +1528,7 @@
 
 
     const requested =
-      params.get(
-        'service'
-      );
+      params.get('service');
 
 
     const accountBox =
@@ -863,66 +1537,11 @@
       );
 
 
-    fetch('/api/me')
-      .then(
-        response =>
-          response.json()
+    const radios = [
+      ...document.querySelectorAll(
+        'input[name="service"]'
       )
-      .then(
-        data => {
-
-          if (!data.user) {
-
-            location.href =
-              'login.html?next=' +
-              encodeURIComponent(
-                'payment.html' +
-                location.search
-              );
-
-            return;
-          }
-
-
-          accountBox.innerHTML =
-
-            '<b>' +
-
-            data.user.name.replace(
-              /[&<>\"']/g,
-              ''
-            ) +
-
-            '</b>' +
-
-            '<span>' +
-
-            data.user.email +
-
-            '</span>';
-
-        }
-      )
-      .catch(
-        () => {
-
-          location.href =
-            'login.html?next=' +
-            encodeURIComponent(
-              'payment.html' +
-              location.search
-            );
-
-        }
-      );
-
-
-    const radios =
-      [
-        ...document.querySelectorAll(
-          'input[name="service"]'
-        )
-      ];
+    ];
 
 
     const total =
@@ -935,6 +1554,65 @@
       document.getElementById(
         'status'
       );
+
+
+
+    /* ==========================
+       KONTO
+       ========================== */
+
+
+    fetch('/api/me')
+
+      .then(response =>
+        response.json()
+      )
+
+      .then(data => {
+
+        if (!data.user) {
+
+          location.href =
+            'login.html?next=' +
+            encodeURIComponent(
+              'payment.html' +
+              location.search
+            );
+
+          return;
+
+        }
+
+
+        accountBox.innerHTML =
+          '<b>' +
+          data.user.name.replace(
+            /[&<>"']/g,
+            ''
+          ) +
+          '</b>' +
+          '<span>' +
+          data.user.email +
+          '</span>';
+
+      })
+
+      .catch(() => {
+
+        location.href =
+          'login.html?next=' +
+          encodeURIComponent(
+            'payment.html' +
+            location.search
+          );
+
+      });
+
+
+
+    /* ==========================
+       CENA
+       ========================== */
 
 
     function updateTotal() {
@@ -953,43 +1631,84 @@
     }
 
 
-    if (
-      services[requested]
-    ) {
 
-      const requestedInput =
+    if (services[requested]) {
+
+      const requestedRadio =
         document.querySelector(
           `input[value="${requested}"]`
         );
 
 
-      if (requestedInput) {
-        requestedInput.checked =
-          true;
+      if (requestedRadio) {
+
+        requestedRadio.checked = true;
+
       }
 
     }
 
 
-    radios.forEach(
-      radio => {
 
-        radio.addEventListener(
-          'change',
-          updateTotal
-        );
+    radios.forEach(radio => {
 
-      }
-    );
+      radio.addEventListener(
+        'change',
+        updateTotal
+      );
+
+    });
 
 
     updateTotal();
 
 
+
+    /* ==========================
+       DISCORD
+       ========================== */
+
+
+    const discordButton =
+      document.getElementById(
+        'discordContact'
+      );
+
+
+    if (discordButton) {
+
+      discordButton.addEventListener(
+        'click',
+        async () => {
+
+          try {
+
+            await navigator.clipboard.writeText(
+              'kutazman'
+            );
+
+          } catch (error) {
+
+            /* Clipboard może być
+               zablokowany przez przeglądarkę.
+               Sam link nadal działa. */
+
+          }
+
+        }
+      );
+
+    }
+
+
+
+    /* ==========================
+       PŁATNOŚĆ
+       ========================== */
+
+
     document
-      .getElementById(
-        'checkoutForm'
-      )
+      .getElementById('checkoutForm')
       .addEventListener(
         'submit',
         async event => {
@@ -1009,17 +1728,16 @@
               'Najpierw wybierz usługę.';
 
             return;
+
           }
 
 
           const button =
-            event.currentTarget.querySelector(
-              'button'
-            );
+            event.currentTarget
+              .querySelector('button');
 
 
-          button.disabled =
-            true;
+          button.disabled = true;
 
           button.style.opacity =
             '.65';
@@ -1029,27 +1747,30 @@
             'Przygotowuję bezpieczną płatność...';
 
 
+
           const payload = {
 
             service:
               selected.value,
 
             notes:
-              document.getElementById(
-                'notes'
-              ).value
+              document
+                .getElementById('notes')
+                .value
 
           };
 
 
+
           try {
+
 
             const response =
               await fetch(
                 '/api/create-checkout-session',
                 {
-                  method:
-                    'POST',
+
+                  method: 'POST',
 
                   headers: {
                     'Content-Type':
@@ -1057,9 +1778,8 @@
                   },
 
                   body:
-                    JSON.stringify(
-                      payload
-                    )
+                    JSON.stringify(payload)
+
                 }
               );
 
@@ -1087,8 +1807,10 @@
             status.textContent =
               error.message;
 
+
             button.disabled =
               false;
+
 
             button.style.opacity =
               '1';
